@@ -1,0 +1,52 @@
+[
+  {
+    "transaction_id": "txn_1001",
+    "source": "processor_ledger",
+    "merchant_id": "merch_42",
+    "amount": "129.99",
+    "currency": "USD",
+    "timestamp": "2026-08-10T14:22:00Z",
+    "description": "Card payment - order #58213",
+    "raw_metadata": {"card_last4": "4242", "auth_code": "A1B2C3"}
+  },
+  {
+    "transaction_id": "txn_1002",
+    "source": "merchant_order_system",
+    "merchant_id": "merch_42",
+    "amount": "-45.00",
+    "currency": "USD",
+    "timestamp": "2026-08-11T09:05:00Z",
+    "description": "Refund issued for order #58109, item returned",
+    "raw_metadata": {"order_id": "58109", "reason": "customer_return"}
+  },
+  {
+    "transaction_id": "txn_1003",
+    "source": "processor_ledger",
+    "merchant_id": "merch_42",
+    "amount": "129.99",
+    "currency": "USD",
+    "timestamp": "2026-08-10T14:22:05Z",
+    "description": "Card payment - order #58213 (retry after timeout)",
+    "raw_metadata": {"card_last4": "4242", "auth_code": "A1B2C4"}
+  },
+  {
+    "transaction_id": "txn_1004",
+    "source": "processor_ledger",
+    "merchant_id": "merch_42",
+    "amount": "-129.99",
+    "currency": "USD",
+    "timestamp": "2026-08-14T18:40:00Z",
+    "description": "Dispute filed by cardholder - unrecognized charge",
+    "raw_metadata": {"dispute_id": "dp_9981", "reason_code": "10.4"}
+  },
+  {
+    "transaction_id": "txn_1005",
+    "source": "merchant_order_system",
+    "merchant_id": "merch_42",
+    "amount": "2.50",
+    "currency": "USD",
+    "timestamp": "2026-08-12T00:00:00Z",
+    "description": "Monthly platform processing fee",
+    "raw_metadata": {"fee_type": "platform"}
+  }
+]
