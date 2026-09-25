@@ -1,19 +1,43 @@
 # Reconcile
 
-Autonomous transaction reconciliation & anomaly detection platform — portfolio project built to develop hands-on agentic AI experience (LangGraph orchestration, Graph RAG, MCP servers) for agentic-AI-architect roles.
+Autonomous transaction reconciliation & anomaly detection platform — portfolio project built to develop hands-on agentic AI experience (LangGraph orchestration, Graph RAG, MCP server development, episodic memory) for agentic-AI-architect roles.
 
 Full project plan/architecture: see SecondBrain `03_Knowledge/AI/Reconcile_Portfolio/README.md`.
-Progress log: see SecondBrain `03_Knowledge/AI/Reconcile_Portfolio/Progress_Log.md`.
+Progress log (dated, session-by-session): see SecondBrain `03_Knowledge/AI/Reconcile_Portfolio/Progress_Log.md`.
 
-## Status: Week 1 — environment setup, LangGraph fundamentals, single-agent prototype, FastAPI skeleton
+## Status
+
+Weeks 1–10 built and verified against real infra (MongoDB, Redis, Neo4j, a live MCP client/server round trip, Chroma). Eval framework (grounding accuracy / latency / false-positive-negative rate / drift) is the one remaining piece — not yet scoped.
+
+## Architecture
+
+A LangGraph orchestrator runs each batch of transactions through a fixed pipeline, branching only at the escalation decision:
+
+```
+classify_all → match → detect_anomalies → lookup_missing_records → reason → ─┬─ escalate ─┐
+                                                                               └─ (skip)  ──┴─→ persist_batch
+```
+
+- **Classification** (`app/agents/classification_agent.py`) — classifies each transaction (`payment` / `refund` / `chargeback` / `duplicate_charge` / `fee`). Three interchangeable providers — see [Classification model providers](#classification-model-providers) below.
+- **Reconciliation/Matching** (`app/agents/reconciliation_agent.py`) — finds duplicate and refund/chargeback pairs within the batch.
+- **Anomaly Detection** (`app/agents/anomaly_agent.py`) — flags `duplicate_charge`, `unresolved_chargeback`, `missing_record`, and `amount_mismatch` anomalies from the match results.
+- **Cross-batch lookup** (`app/mcp_client.py` / `app/mcp_server.py`) — `missing_record` and `unresolved_chargeback` anomalies get one real MCP tool call (stdio client/server) to check whether their counterpart transaction showed up in a *different* batch; a hit auto-resolves the anomaly and writes a permanent audit record, no human involved.
+- **Reasoning** (`app/agents/reasoning_agent.py`) — grounds each anomaly's explanation two ways: cited liability detail from the Neo4j reason-code graph (`app/graph_db.py`, Graph RAG) for chargebacks with a dispute reason code, and similar-past-decision context from episodic memory (`app/memory_store.py`, Chroma) for every anomaly type where something similar enough has been decided before.
+- **Escalation** — anything still needing a human goes onto a live Redis-backed queue (`escalate_dispute`), including its episodic-memory context inline, for a reviewer to act on via the API.
+- **Persistence** — every transaction in the batch is upserted to MongoDB regardless of outcome, so a future batch's lookup step can find it as a counterpart.
+
+A decision on an escalated anomaly (`submit_reconciliation_decision`) writes a permanent Mongo audit record and — for every decision except `deferred` — embeds it as a new episode in episodic memory, closing the loop for future similar anomalies.
 
 ## Stack
 
-- Python 3.10+, LangGraph, LangChain (Anthropic Claude as primary model)
+- Python 3.10+, LangGraph, LangChain
+- Classification model: Anthropic Claude, a local model via Ollama, or a rule-based heuristic fallback — auto-selected, see below
 - FastAPI (API layer)
-- MongoDB (transaction records) — `mongomock` used for local dev since Docker isn't available in this build environment; swap to a real MongoDB via `MONGO_URI` when running locally with Docker
-- Redis (state/queues) — `fakeredis` used for local dev for the same reason; swap to real Redis via `REDIS_URL` when available
-- Neo4j + Graph RAG, custom MCP server — planned for weeks 5–8, not yet built
+- MongoDB (transaction records, decision audit trail) — `mongomock` for local dev without Docker; real Mongo via `MONGO_URI`
+- Redis (live escalation queue) — `fakeredis` for local dev without Docker; real Redis via `REDIS_URL`
+- Neo4j (reason-code knowledge graph, Graph RAG) — in-memory fallback for local dev without Docker; real Neo4j via `NEO4J_URI`
+- Chroma (episodic memory — vector store of past reconciliation decisions) — always local (SQLite-backed), no Docker dependency
+- MCP (`mcp` / FastMCP) — a real stdio client/server boundary for cross-batch lookups and write tools, with an in-process fallback when Mongo is mocked
 
 ## Setup
 
@@ -21,29 +45,36 @@ Progress log: see SecondBrain `03_Knowledge/AI/Reconcile_Portfolio/Progress_Log.
 python3 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
-cp .env.example .env   # add your ANTHROPIC_API_KEY
+cp .env.example .env   # add your ANTHROPIC_API_KEY, and MONGO_URI/REDIS_URL/NEO4J_URI if you have Docker running
 ```
 
-## Run the Week 1 single-agent prototype
+`docker compose up -d` brings up real MongoDB, Redis, and Neo4j if you want to run against real backends instead of the in-memory fallbacks (see [Local dev without Docker](#local-dev-without-docker)).
 
-```bash
-python3 scripts/run_prototype.py
-```
+## Running it
 
-This runs a minimal LangGraph graph with one node — a **Classification Agent** that reads a sample transaction and classifies it (e.g., `payment`, `refund`, `chargeback`, `duplicate_charge`) with reasoning. It's intentionally small: the goal this week is proving the LangGraph plumbing (state schema, node, compiled graph, invocation) works end to end before adding more agents/orchestration in weeks 3–4.
-
-## Run the FastAPI skeleton
-
+**FastAPI app:**
 ```bash
 uvicorn app.main:app --reload
 ```
 
-`GET /health` — liveness check, also reports whether it's using real or mock Mongo/Redis backends.
-`POST /classify` — runs a transaction through the Classification Agent via HTTP.
+| Endpoint | Purpose |
+|---|---|
+| `GET /health` | Liveness check; also reports whether Mongo/Redis are real or mocked. |
+| `POST /classify` | Runs one transaction through the Classification Agent. |
+| `POST /reconcile` | Runs a batch of transactions through the full orchestrator pipeline above. |
+| `GET /escalations` | Lists everything currently on the live escalation queue, including episodic-memory context. |
+| `POST /escalations/{anomaly_id}/decision` | A human reviewer's decision (`approved` / `dismissed` / `deferred`) — writes the audit record and, unless deferred, a new episode. |
+| `GET /escalations/{anomaly_id}/similar` | On-demand: similar past decisions for one pending anomaly, queried directly from episodic memory. |
 
-## Local dev without Docker
+**CLI / scripts** (no API server needed):
 
-This build environment doesn't have Docker available, so `app/db.py` and `app/cache.py` fall back to `mongomock` / `fakeredis` in-memory implementations automatically when `MONGO_URI` / `REDIS_URL` aren't set. A `docker-compose.yml` is included for running against real MongoDB + Redis once this is pulled down to a machine with Docker (e.g. for weeks 3+ multi-agent work, where persistence across runs starts to matter).
+| Script | What it demonstrates |
+|---|---|
+| `scripts/run_prototype.py` | The original Week 1 single-agent Classification Agent prototype. |
+| `scripts/run_orchestrator.py` | One full batch through the orchestrator pipeline. |
+| `scripts/demo_cross_batch_lookup.py` | The MCP lookup tool resolving a `missing_record` anomaly across two separate batches. |
+| `scripts/demo_escalation_queue.py` | The write tools end to end: escalate, list, approve one, defer another, read back the audit records. |
+| `scripts/demo_episodic_memory.py` | Resolving an anomaly seeds an episode; a similar anomaly in a later batch gets grounded by it, both via the Reasoning Agent and the `/similar` endpoint's own code path. |
 
 ## Classification model providers
 
@@ -101,25 +132,62 @@ different model.
    fallback built for that today -- `_local_classify()` would need a
    prompt-for-JSON + manual Pydantic-validation path instead.
 
+## Local dev without Docker
+
+`app/db.py`, `app/cache.py`, and `app/graph_db.py` fall back to `mongomock` / `fakeredis` / an in-memory reason-code graph automatically whenever `MONGO_URI` / `REDIS_URL` / `NEO4J_URI` aren't set — the whole pipeline runs with nothing but an `ANTHROPIC_API_KEY` (or nothing at all, in heuristic mode). Chroma (episodic memory) needs no such fallback — it's local either way, no Docker or account required. `docker-compose.yml` brings up real MongoDB, Redis, and Neo4j when you want to test against real backends, including the genuine MCP stdio client/server round trip (the in-process fallback only kicks in when Mongo is mocked).
+
+## Testing
+
+```bash
+pytest
+```
+
+66 tests, mock-mode by default (no Docker or Ollama required — one test skips cleanly if Ollama isn't reachable). Every test forces heuristic-mode classification regardless of what's configured, so the suite never makes a real Anthropic or Ollama call except the one deliberate smoke test (`test_classification_agent_local_llm.py`). Set `MONGO_URI`/`REDIS_URL`/`NEO4J_URI` (with `docker compose up -d`) to run the same suite against real infra instead — same tests, real backends, including the genuine MCP subprocess round trip.
+
 ## Layout
 
 ```
 reconcile/
   app/
-    main.py            FastAPI app, routes
-    config.py           env/settings
-    db.py                Mongo connection (real or mongomock)
-    cache.py             Redis connection (real or fakeredis)
+    main.py                        FastAPI app, routes
+    config.py                      env/settings
+    db.py                          Mongo connection (real or mongomock)
+    cache.py                       Redis connection (real or fakeredis)
+    graph_db.py                    Neo4j connection (real or in-memory reason-code graph)
+    memory_store.py                Episodic memory (Chroma) — write/query past decisions
+    mcp_client.py                  MCP client wrappers (stdio, with in-process fallback)
+    mcp_server.py                  MCP tool server: lookup + write tools (FastMCP)
+    retry.py                       Shared retry helper for MCP calls
     agents/
-      classification_agent.py   LangGraph single-agent prototype
+      classification_agent.py      Classifies a transaction (Anthropic / Ollama / heuristic)
+      reconciliation_agent.py      Finds duplicate/refund/chargeback matches within a batch
+      anomaly_agent.py             Flags anomalies from match results
+      reasoning_agent.py           Grounds anomaly explanations (Graph RAG + episodic memory)
+      orchestrator.py              LangGraph orchestrator wiring the pipeline together
     models/
-      transaction.py     Pydantic transaction schema
+      transaction.py               Pydantic transaction/classification schema
+      reconciliation.py            Anomaly / ReconciliationDecision schema
+      graph.py                     Reason-code graph node/edge schema
     data/
       sample_transactions.json
+      reason_codes.py              Seed data for the Neo4j reason-code graph
   scripts/
-    run_prototype.py     CLI runner for the agent, no API server needed
+    run_prototype.py               CLI runner for the Week 1 single-agent prototype
+    run_orchestrator.py            CLI runner for one full batch through the pipeline
+    seed_graph.py                  Loads reason_codes.py into Neo4j
+    demo_cross_batch_lookup.py     Demonstrates the MCP lookup tool across batches
+    demo_escalation_queue.py       Demonstrates the write tools + live escalation queue
+    demo_episodic_memory.py        Demonstrates episodic memory grounding a later anomaly
   tests/
     test_classification_agent.py
+    test_classification_agent_local_llm.py
+    test_orchestrator.py
+    test_mcp_lookup.py
+    test_mcp_escalations.py
+    test_memory_store.py
+    test_reasoning_agent.py
+    test_main.py
+    conftest.py                    Shared fixtures — Mongo/Redis/Chroma isolation, heuristic-mode enforcement
   requirements.txt
   docker-compose.yml
   .env.example
