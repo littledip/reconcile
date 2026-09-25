@@ -1,8 +1,9 @@
-version: "3.9"
+# version: "3.9"
 
 # For local dev once this repo is on a machine with Docker available.
-# Not used in the initial build environment (no Docker there) — app/db.py
-# and app/cache.py fall back to mongomock/fakeredis when these aren't reachable.
+# Not used in the initial build environment (no Docker there) — app/db.py,
+# app/cache.py, and app/graph_db.py fall back to mongomock/fakeredis/an
+# in-memory graph store when these aren't reachable.
 
 services:
   mongo:
@@ -17,5 +18,16 @@ services:
     ports:
       - "6379:6379"
 
+  neo4j:
+    image: neo4j:5
+    ports:
+      - "7474:7474"  # browser UI
+      - "7687:7687"  # bolt protocol
+    environment:
+      - NEO4J_AUTH=neo4j/reconcile-dev
+    volumes:
+      - neo4j_data:/data
+
 volumes:
   mongo_data:
+  neo4j_data:

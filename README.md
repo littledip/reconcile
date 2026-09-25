@@ -45,6 +45,62 @@ uvicorn app.main:app --reload
 
 This build environment doesn't have Docker available, so `app/db.py` and `app/cache.py` fall back to `mongomock` / `fakeredis` in-memory implementations automatically when `MONGO_URI` / `REDIS_URL` aren't set. A `docker-compose.yml` is included for running against real MongoDB + Redis once this is pulled down to a machine with Docker (e.g. for weeks 3+ multi-agent work, where persistence across runs starts to matter).
 
+## Classification model providers
+
+`app/agents/classification_agent.py` auto-selects a provider each run, in
+priority order: a local model via Ollama (whenever reachable) -> real
+Anthropic (Claude, if `ANTHROPIC_API_KEY` is set) -> a rule-based heuristic
+fallback (no live model at all). `LLM_PROVIDER` in `.env` forces one of
+`local` / `anthropic` / `heuristic` explicitly, skipping auto-detection --
+this is what the test suite uses so it never depends on what's actually
+running on the machine executing it (see `tests/conftest.py`).
+
+### Swapping the local (Ollama) model
+
+Config lives entirely in `.env` -- no code changes needed to point at a
+different model.
+
+1. **Get a GGUF for the new model.** Download one directly (e.g. from
+   Hugging Face) or export one from Unsloth if it's a model you fine-tuned
+   yourself.
+
+2. **Register it with Ollama** (skip if it's an official model you can
+   `ollama pull` instead):
+   ```bash
+   cat > Modelfile <<'EOF'
+   FROM /absolute/path/to/new-model.gguf
+   EOF
+   ollama create <new-model-name> -f Modelfile
+   ollama list   # confirm it shows up, and note the exact name Ollama stored
+   ```
+
+3. **Update `.env`:**
+   ```
+   OLLAMA_MODEL=<new-model-name>
+   ```
+   Use the exact string `ollama list` shows, not the GGUF filename.
+
+4. **Restart whatever's running.** `_resolve_provider()` caches the
+   auto-detected provider per-process, but a plain restart (the app, or a
+   fresh `pytest` invocation) re-resolves against the new `.env` value --
+   no manual cache-clearing needed.
+
+5. **Re-run the real-LLM smoke test before trusting it:**
+   ```bash
+   pytest tests/test_classification_agent_local_llm.py -v
+   ```
+   This is the step that actually matters, not a formality -- it's what
+   catches a mismatched chat template or a model that doesn't support
+   tool-calling/structured output in Ollama, either of which would
+   otherwise silently produce bad `ClassificationResult`s rather than a
+   clean error.
+
+6. **If step 5 fails on structured output specifically** (a real
+   tool-calling/schema error, not just a bad classification): that model
+   doesn't support `.with_structured_output()` via Ollama. There's no
+   fallback built for that today -- `_local_classify()` would need a
+   prompt-for-JSON + manual Pydantic-validation path instead.
+
 ## Layout
 
 ```

@@ -23,6 +23,7 @@ DATA_PATH = Path(__file__).resolve().parent.parent / "app" / "data" / "sample_tr
 
 
 def main() -> None:
+    """Run every sample transaction through the classification graph and print results."""
     mode = "LLM (Claude)" if settings.anthropic_api_key else "heuristic (no ANTHROPIC_API_KEY set — add one to .env for real model calls)"
     print(f"Classification mode: {mode}\n")
 

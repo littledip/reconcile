@@ -12,17 +12,31 @@ with multiple nodes and conditional edges) can be built on top of this one
 without a rewrite: the state shape and the "agent = compiled graph +
 typed state" pattern carry forward.
 
-Two execution modes:
-  - LLM mode (ANTHROPIC_API_KEY set): calls Claude via langchain-anthropic
-    with structured output bound to ClassificationResult.
-  - Heuristic mode (no API key): a simple rule-based classifier, so the
-    graph wiring can be built, run, and tested in this environment without
-    requiring a live API key. Swap to LLM mode automatically once a key is
-    added to .env — no code changes needed.
+Three execution modes, auto-selected in priority order by
+_resolve_provider() below:
+  - Local mode (Ollama reachable at settings.ollama_base_url): calls a local
+    model — e.g. an Unsloth-tuned Qwen model imported into Ollama — via
+    langchain-ollama, same structured-output binding as LLM mode. Preferred
+    automatically whenever it's up: free, no API usage, and what the test
+    suite's real-LLM smoke test (test_classification_agent_local_llm.py)
+    exercises.
+  - LLM mode (ANTHROPIC_API_KEY set, Ollama not reachable): calls Claude via
+    langchain-anthropic with structured output bound to ClassificationResult.
+  - Heuristic mode (neither available): a simple rule-based classifier, so
+    the graph wiring can be built, run, and tested in this environment
+    without requiring a live model at all.
+
+settings.llm_provider is an explicit override ("local" / "anthropic" /
+"heuristic") that skips auto-detection entirely when set. Tests pin this
+directly (tests/conftest.py's autouse _force_heuristic_classification
+fixture, and the local-LLM smoke test's own override) rather than relying on
+whatever happens to be configured/running on the machine executing them.
 """
 from __future__ import annotations
 
-from typing import TypedDict
+import socket
+from typing import Optional, TypedDict
+from urllib.parse import urlparse
 
 from langgraph.graph import StateGraph, END
 
@@ -98,6 +112,82 @@ def _heuristic_classify(txn: Transaction) -> ClassificationResult:
     )
 
 
+_provider_cache: Optional[str] = None
+
+
+def ollama_reachable(base_url: str, timeout: float = 0.3) -> bool:
+    """Cheap liveness probe: can we open a TCP connection to Ollama's port?
+
+    Deliberately not an HTTP request to /api/tags -- a plain connect is
+    enough to decide "is something listening here", and the real
+    correctness check (is it actually Ollama, does the configured model
+    exist) happens naturally the first time _local_classify() makes a real
+    call -- which the local-LLM smoke test exercises directly.
+    """
+    parsed = urlparse(base_url)
+    host = parsed.hostname or "localhost"
+    port = parsed.port or 11434
+    try:
+        with socket.create_connection((host, port), timeout=timeout):
+            return True
+    except OSError:
+        return False
+
+
+def _resolve_provider() -> str:
+    """Priority: settings.llm_provider (an explicit override) always wins --
+    this is what tests use to pin a specific mode regardless of what's
+    actually configured/running on the machine executing them. Otherwise:
+    prefer local Qwen via Ollama whenever it's reachable (free, no API
+    usage), then real Anthropic if a key is configured, then the heuristic
+    fallback.
+
+    The auto-detected result (not the override) is cached per-process after
+    the first resolution, so a batch of many transactions doesn't re-probe
+    Ollama's port once per transaction -- mirrors memory_store._client's
+    singleton-with-reset-hook shape.
+    """
+    global _provider_cache
+    if settings.llm_provider:
+        return settings.llm_provider
+    if _provider_cache is not None:
+        return _provider_cache
+    if ollama_reachable(settings.ollama_base_url):
+        _provider_cache = "local"
+    elif settings.anthropic_api_key:
+        _provider_cache = "anthropic"
+    else:
+        _provider_cache = "heuristic"
+    return _provider_cache
+
+
+def reset_provider_cache_for_tests() -> None:
+    """Test-only: drop the cached auto-detected provider so the next call
+    re-probes Ollama instead of reusing a resolution from an earlier test.
+    Mirrors memory_store.reset_client_for_tests().
+    """
+    global _provider_cache
+    _provider_cache = None
+
+
+def _local_classify(txn: Transaction) -> ClassificationResult:
+    from langchain_ollama import ChatOllama
+    from langchain_core.messages import HumanMessage, SystemMessage
+
+    llm = ChatOllama(model=settings.ollama_model, base_url=settings.ollama_base_url)
+    structured_llm = llm.with_structured_output(ClassificationResult)
+
+    messages = [
+        SystemMessage(content=SYSTEM_PROMPT),
+        HumanMessage(content=txn.model_dump_json()),
+    ]
+    result = structured_llm.invoke(messages)
+    # Same enforcement as _llm_classify -- don't trust the model to copy the
+    # transaction_id faithfully into structured output.
+    result.transaction_id = txn.transaction_id
+    return result
+
+
 def _llm_classify(txn: Transaction) -> ClassificationResult:
     from langchain_anthropic import ChatAnthropic
     from langchain_core.messages import HumanMessage, SystemMessage
@@ -105,7 +195,6 @@ def _llm_classify(txn: Transaction) -> ClassificationResult:
     llm = ChatAnthropic(
         model=settings.anthropic_model,
         api_key=settings.anthropic_api_key,
-        temperature=0,
     )
     structured_llm = llm.with_structured_output(ClassificationResult)
 
@@ -123,7 +212,10 @@ def _llm_classify(txn: Transaction) -> ClassificationResult:
 def classify_node(state: ClassificationState) -> ClassificationState:
     txn = Transaction.model_validate(state["transaction"])
 
-    if settings.anthropic_api_key:
+    provider = _resolve_provider()
+    if provider == "local":
+        result = _local_classify(txn)
+    elif provider == "anthropic":
         result = _llm_classify(txn)
     else:
         result = _heuristic_classify(txn)
@@ -132,6 +224,7 @@ def classify_node(state: ClassificationState) -> ClassificationState:
 
 
 def build_graph():
+    """Compile the single-node classification graph."""
     graph = StateGraph(ClassificationState)
     graph.add_node("classify", classify_node)
     graph.set_entry_point("classify")
