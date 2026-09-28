@@ -1,0 +1,3059 @@
+{
+  "config": {
+    "transactions_per_batch": 50,
+    "num_batches": 3
+  },
+  "batches": [
+    {
+      "batch_id": "eval_batch_1",
+      "run_order": 1,
+      "transactions": [
+        {
+          "transaction_id": "eval_b1_t0001",
+          "source": "processor_ledger",
+          "merchant_id": "merch_eval_0001",
+          "amount": "75.00",
+          "currency": "USD",
+          "timestamp": "2026-09-01T09:00:00Z",
+          "description": "Card payment - order #90001",
+          "raw_metadata": {
+            "card_last4": "1111"
+          }
+        },
+        {
+          "transaction_id": "eval_b1_t0002",
+          "source": "processor_ledger",
+          "merchant_id": "merch_eval_0001",
+          "amount": "75.00",
+          "currency": "USD",
+          "timestamp": "2026-09-01T09:00:05Z",
+          "description": "Card payment - order #90001 (retry after timeout)",
+          "raw_metadata": {
+            "card_last4": "1111"
+          }
+        },
+        {
+          "transaction_id": "eval_b1_t0003",
+          "source": "processor_ledger",
+          "merchant_id": "merch_eval_0002",
+          "amount": "75.00",
+          "currency": "USD",
+          "timestamp": "2026-09-01T09:00:00Z",
+          "description": "Card payment - order #90002",
+          "raw_metadata": {
+            "card_last4": "1111"
+          }
+        },
+        {
+          "transaction_id": "eval_b1_t0004",
+          "source": "processor_ledger",
+          "merchant_id": "merch_eval_0002",
+          "amount": "75.00",
+          "currency": "USD",
+          "timestamp": "2026-09-01T09:00:05Z",
+          "description": "Card payment - order #90002 (retry after timeout)",
+          "raw_metadata": {
+            "card_last4": "1111"
+          }
+        },
+        {
+          "transaction_id": "eval_b1_t0005",
+          "source": "processor_ledger",
+          "merchant_id": "merch_eval_0003",
+          "amount": "50.00",
+          "currency": "USD",
+          "timestamp": "2026-09-01T09:00:00Z",
+          "description": "Card payment - order #90003",
+          "raw_metadata": {
+            "card_last4": "2222"
+          }
+        },
+        {
+          "transaction_id": "eval_b1_t0006",
+          "source": "processor_ledger",
+          "merchant_id": "merch_eval_0003",
+          "amount": "50.75",
+          "currency": "USD",
+          "timestamp": "2026-09-01T09:00:05Z",
+          "description": "Card payment - order #90003 (retry after timeout, surcharge applied)",
+          "raw_metadata": {
+            "card_last4": "2222"
+          }
+        },
+        {
+          "transaction_id": "eval_b1_t0007",
+          "source": "processor_ledger",
+          "merchant_id": "merch_eval_0004",
+          "amount": "-89.50",
+          "currency": "USD",
+          "timestamp": "2026-09-01T09:00:00Z",
+          "description": "Dispute filed by cardholder - unrecognized charge",
+          "raw_metadata": {
+            "dispute_id": "dp_eval_eval_b1_t0007",
+            "reason_code": "10.4"
+          }
+        },
+        {
+          "transaction_id": "eval_b1_t0008",
+          "source": "processor_ledger",
+          "merchant_id": "merch_eval_0005",
+          "amount": "-89.50",
+          "currency": "USD",
+          "timestamp": "2026-09-01T09:00:00Z",
+          "description": "Dispute filed by cardholder - unrecognized charge",
+          "raw_metadata": {
+            "dispute_id": "dp_eval_eval_b1_t0008",
+            "reason_code": "11.3"
+          }
+        },
+        {
+          "transaction_id": "eval_b1_t0009",
+          "source": "processor_ledger",
+          "merchant_id": "merch_eval_0006",
+          "amount": "-64.20",
+          "currency": "USD",
+          "timestamp": "2026-09-01T09:00:00Z",
+          "description": "Dispute filed by cardholder - product not as described",
+          "raw_metadata": {
+            "dispute_id": "dp_eval_eval_b1_t0009"
+          }
+        },
+        {
+          "transaction_id": "eval_b1_t0010",
+          "source": "merchant_order_system",
+          "merchant_id": "merch_eval_0007",
+          "amount": "-33.10",
+          "currency": "USD",
+          "timestamp": "2026-09-01T09:00:00Z",
+          "description": "Refund issued for order - item returned",
+          "raw_metadata": {
+            "reason": "customer_return"
+          }
+        },
+        {
+          "transaction_id": "eval_b1_t0011",
+          "source": "merchant_order_system",
+          "merchant_id": "merch_eval_0008",
+          "amount": "-33.10",
+          "currency": "USD",
+          "timestamp": "2026-09-01T09:00:00Z",
+          "description": "Refund issued for order - item returned",
+          "raw_metadata": {
+            "reason": "customer_return"
+          }
+        },
+        {
+          "transaction_id": "eval_b1_t0012",
+          "source": "processor_ledger",
+          "merchant_id": "merch_eval_0009",
+          "amount": "200.00",
+          "currency": "USD",
+          "timestamp": "2026-09-01T09:00:00Z",
+          "description": "Card payment for merchant services",
+          "raw_metadata": {
+            "card_last4": "5555"
+          }
+        },
+        {
+          "transaction_id": "eval_b1_t0013",
+          "source": "merchant_order_system",
+          "merchant_id": "merch_eval_0009",
+          "amount": "-150.00",
+          "currency": "USD",
+          "timestamp": "2026-09-01T10:00:00Z",
+          "description": "Refund issued - item returned",
+          "raw_metadata": {
+            "reason": "customer_return"
+          }
+        },
+        {
+          "transaction_id": "eval_b1_t0014",
+          "source": "processor_ledger",
+          "merchant_id": "merch_eval_0010",
+          "amount": "200.00",
+          "currency": "USD",
+          "timestamp": "2026-09-01T09:00:00Z",
+          "description": "Card payment for merchant services",
+          "raw_metadata": {
+            "card_last4": "5555"
+          }
+        },
+        {
+          "transaction_id": "eval_b1_t0015",
+          "source": "merchant_order_system",
+          "merchant_id": "merch_eval_0010",
+          "amount": "-150.00",
+          "currency": "USD",
+          "timestamp": "2026-09-01T10:00:00Z",
+          "description": "Refund issued - item returned",
+          "raw_metadata": {
+            "reason": "customer_return"
+          }
+        },
+        {
+          "transaction_id": "eval_b1_t0016",
+          "source": "processor_ledger",
+          "merchant_id": "merch_eval_0011",
+          "amount": "200.00",
+          "currency": "USD",
+          "timestamp": "2026-09-01T09:00:00Z",
+          "description": "Card payment for merchant services",
+          "raw_metadata": {
+            "card_last4": "5555"
+          }
+        },
+        {
+          "transaction_id": "eval_b1_t0017",
+          "source": "merchant_order_system",
+          "merchant_id": "merch_eval_0011",
+          "amount": "-199.98",
+          "currency": "USD",
+          "timestamp": "2026-09-01T10:00:00Z",
+          "description": "Refund issued - item returned",
+          "raw_metadata": {
+            "reason": "customer_return"
+          }
+        },
+        {
+          "transaction_id": "eval_b1_t0052",
+          "source": "processor_ledger",
+          "merchant_id": "merch_eval_0034",
+          "amount": "112.40",
+          "currency": "USD",
+          "timestamp": "2026-09-01T09:00:00Z",
+          "description": "Card payment for merchant services",
+          "raw_metadata": {
+            "card_last4": "3333"
+          }
+        },
+        {
+          "transaction_id": "eval_b1_t0054",
+          "source": "processor_ledger",
+          "merchant_id": "merch_eval_0035",
+          "amount": "112.40",
+          "currency": "USD",
+          "timestamp": "2026-09-01T09:00:00Z",
+          "description": "Card payment for merchant services",
+          "raw_metadata": {
+            "card_last4": "3333"
+          }
+        },
+        {
+          "transaction_id": "eval_b1_t0060",
+          "source": "merchant_order_system",
+          "merchant_id": "merch_eval_0038",
+          "amount": "-58.75",
+          "currency": "USD",
+          "timestamp": "2026-09-01T09:00:00Z",
+          "description": "Refund issued - item returned",
+          "raw_metadata": {
+            "reason": "customer_return"
+          }
+        },
+        {
+          "transaction_id": "eval_b1_t0062",
+          "source": "merchant_order_system",
+          "merchant_id": "merch_eval_0039",
+          "amount": "-58.75",
+          "currency": "USD",
+          "timestamp": "2026-09-01T09:00:00Z",
+          "description": "Refund issued - item returned",
+          "raw_metadata": {
+            "reason": "customer_return"
+          }
+        },
+        {
+          "transaction_id": "eval_b1_t0068",
+          "source": "processor_ledger",
+          "merchant_id": "merch_eval_0042",
+          "amount": "40.00",
+          "currency": "USD",
+          "timestamp": "2026-09-01T09:00:00Z",
+          "description": "Card payment for merchant services",
+          "raw_metadata": {
+            "card_last4": "6666"
+          }
+        },
+        {
+          "transaction_id": "eval_b1_t0069",
+          "source": "merchant_order_system",
+          "merchant_id": "merch_eval_0042",
+          "amount": "-40.00",
+          "currency": "USD",
+          "timestamp": "2026-09-02T09:00:00Z",
+          "description": "Refund issued - item returned",
+          "raw_metadata": {
+            "reason": "customer_return"
+          }
+        },
+        {
+          "transaction_id": "eval_b1_t0070",
+          "source": "processor_ledger",
+          "merchant_id": "merch_eval_0043",
+          "amount": "41.00",
+          "currency": "USD",
+          "timestamp": "2026-09-01T09:10:00Z",
+          "description": "Card payment for merchant services",
+          "raw_metadata": {
+            "card_last4": "6666"
+          }
+        },
+        {
+          "transaction_id": "eval_b1_t0071",
+          "source": "merchant_order_system",
+          "merchant_id": "merch_eval_0043",
+          "amount": "-41.00",
+          "currency": "USD",
+          "timestamp": "2026-09-02T09:10:00Z",
+          "description": "Refund issued - item returned",
+          "raw_metadata": {
+            "reason": "customer_return"
+          }
+        },
+        {
+          "transaction_id": "eval_b1_t0072",
+          "source": "processor_ledger",
+          "merchant_id": "merch_eval_0044",
+          "amount": "2.50",
+          "currency": "USD",
+          "timestamp": "2026-09-01T09:00:00Z",
+          "description": "Monthly platform processing fee",
+          "raw_metadata": {
+            "fee_type": "platform"
+          }
+        },
+        {
+          "transaction_id": "eval_b1_t0073",
+          "source": "processor_ledger",
+          "merchant_id": "merch_eval_0045",
+          "amount": "2.50",
+          "currency": "USD",
+          "timestamp": "2026-09-01T09:20:00Z",
+          "description": "Monthly platform processing fee",
+          "raw_metadata": {
+            "fee_type": "platform"
+          }
+        },
+        {
+          "transaction_id": "eval_b1_t0074",
+          "source": "processor_ledger",
+          "merchant_id": "merch_eval_0046",
+          "amount": "2.50",
+          "currency": "USD",
+          "timestamp": "2026-09-01T09:40:00Z",
+          "description": "Monthly platform processing fee",
+          "raw_metadata": {
+            "fee_type": "platform"
+          }
+        },
+        {
+          "transaction_id": "eval_b1_t0075",
+          "source": "processor_ledger",
+          "merchant_id": "merch_eval_0047",
+          "amount": "2.50",
+          "currency": "USD",
+          "timestamp": "2026-09-01T10:00:00Z",
+          "description": "Monthly platform processing fee",
+          "raw_metadata": {
+            "fee_type": "platform"
+          }
+        },
+        {
+          "transaction_id": "eval_b1_t0076",
+          "source": "processor_ledger",
+          "merchant_id": "merch_eval_0048",
+          "amount": "25.00",
+          "currency": "USD",
+          "timestamp": "2026-09-01T09:00:00Z",
+          "description": "Card payment for merchant services",
+          "raw_metadata": {
+            "card_last4": "7777"
+          }
+        },
+        {
+          "transaction_id": "eval_b1_t0077",
+          "source": "processor_ledger",
+          "merchant_id": "merch_eval_0049",
+          "amount": "26.00",
+          "currency": "USD",
+          "timestamp": "2026-09-01T09:30:00Z",
+          "description": "Card payment for merchant services",
+          "raw_metadata": {
+            "card_last4": "7777"
+          }
+        },
+        {
+          "transaction_id": "eval_b1_t0078",
+          "source": "processor_ledger",
+          "merchant_id": "merch_eval_0050",
+          "amount": "27.00",
+          "currency": "USD",
+          "timestamp": "2026-09-01T10:00:00Z",
+          "description": "Card payment for merchant services",
+          "raw_metadata": {
+            "card_last4": "7777"
+          }
+        },
+        {
+          "transaction_id": "eval_b1_t0079",
+          "source": "processor_ledger",
+          "merchant_id": "merch_eval_0051",
+          "amount": "28.00",
+          "currency": "USD",
+          "timestamp": "2026-09-01T10:30:00Z",
+          "description": "Card payment for merchant services",
+          "raw_metadata": {
+            "card_last4": "7777"
+          }
+        },
+        {
+          "transaction_id": "eval_b1_t0080",
+          "source": "processor_ledger",
+          "merchant_id": "merch_eval_0052",
+          "amount": "29.00",
+          "currency": "USD",
+          "timestamp": "2026-09-01T11:00:00Z",
+          "description": "Card payment for merchant services",
+          "raw_metadata": {
+            "card_last4": "7777"
+          }
+        },
+        {
+          "transaction_id": "eval_b1_t0081",
+          "source": "processor_ledger",
+          "merchant_id": "merch_eval_0053",
+          "amount": "30.00",
+          "currency": "USD",
+          "timestamp": "2026-09-01T11:30:00Z",
+          "description": "Card payment for merchant services",
+          "raw_metadata": {
+            "card_last4": "7777"
+          }
+        },
+        {
+          "transaction_id": "eval_b1_t0082",
+          "source": "processor_ledger",
+          "merchant_id": "merch_eval_0054",
+          "amount": "31.00",
+          "currency": "USD",
+          "timestamp": "2026-09-01T12:00:00Z",
+          "description": "Card payment for merchant services",
+          "raw_metadata": {
+            "card_last4": "7777"
+          }
+        },
+        {
+          "transaction_id": "eval_b1_t0083",
+          "source": "processor_ledger",
+          "merchant_id": "merch_eval_0055",
+          "amount": "32.00",
+          "currency": "USD",
+          "timestamp": "2026-09-01T12:30:00Z",
+          "description": "Card payment for merchant services",
+          "raw_metadata": {
+            "card_last4": "7777"
+          }
+        },
+        {
+          "transaction_id": "eval_b1_t0084",
+          "source": "processor_ledger",
+          "merchant_id": "merch_eval_0056",
+          "amount": "33.00",
+          "currency": "USD",
+          "timestamp": "2026-09-01T13:00:00Z",
+          "description": "Card payment for merchant services",
+          "raw_metadata": {
+            "card_last4": "7777"
+          }
+        },
+        {
+          "transaction_id": "eval_b1_t0085",
+          "source": "processor_ledger",
+          "merchant_id": "merch_eval_0057",
+          "amount": "34.00",
+          "currency": "USD",
+          "timestamp": "2026-09-01T13:30:00Z",
+          "description": "Card payment for merchant services",
+          "raw_metadata": {
+            "card_last4": "7777"
+          }
+        },
+        {
+          "transaction_id": "eval_b1_t0086",
+          "source": "processor_ledger",
+          "merchant_id": "merch_eval_0058",
+          "amount": "35.00",
+          "currency": "USD",
+          "timestamp": "2026-09-01T14:00:00Z",
+          "description": "Card payment for merchant services",
+          "raw_metadata": {
+            "card_last4": "7777"
+          }
+        },
+        {
+          "transaction_id": "eval_b1_t0087",
+          "source": "processor_ledger",
+          "merchant_id": "merch_eval_0059",
+          "amount": "36.00",
+          "currency": "USD",
+          "timestamp": "2026-09-01T14:30:00Z",
+          "description": "Card payment for merchant services",
+          "raw_metadata": {
+            "card_last4": "7777"
+          }
+        },
+        {
+          "transaction_id": "eval_b1_t0088",
+          "source": "processor_ledger",
+          "merchant_id": "merch_eval_0060",
+          "amount": "37.00",
+          "currency": "USD",
+          "timestamp": "2026-09-01T15:00:00Z",
+          "description": "Card payment for merchant services",
+          "raw_metadata": {
+            "card_last4": "7777"
+          }
+        },
+        {
+          "transaction_id": "eval_b1_t0089",
+          "source": "processor_ledger",
+          "merchant_id": "merch_eval_0061",
+          "amount": "38.00",
+          "currency": "USD",
+          "timestamp": "2026-09-01T15:30:00Z",
+          "description": "Card payment for merchant services",
+          "raw_metadata": {
+            "card_last4": "7777"
+          }
+        },
+        {
+          "transaction_id": "eval_b1_t0090",
+          "source": "processor_ledger",
+          "merchant_id": "merch_eval_0062",
+          "amount": "39.00",
+          "currency": "USD",
+          "timestamp": "2026-09-01T16:00:00Z",
+          "description": "Card payment for merchant services",
+          "raw_metadata": {
+            "card_last4": "7777"
+          }
+        },
+        {
+          "transaction_id": "eval_b1_t0091",
+          "source": "processor_ledger",
+          "merchant_id": "merch_eval_0063",
+          "amount": "40.00",
+          "currency": "USD",
+          "timestamp": "2026-09-01T16:30:00Z",
+          "description": "Card payment for merchant services",
+          "raw_metadata": {
+            "card_last4": "7777"
+          }
+        },
+        {
+          "transaction_id": "eval_b1_t0092",
+          "source": "processor_ledger",
+          "merchant_id": "merch_eval_0064",
+          "amount": "41.00",
+          "currency": "USD",
+          "timestamp": "2026-09-01T17:00:00Z",
+          "description": "Card payment for merchant services",
+          "raw_metadata": {
+            "card_last4": "7777"
+          }
+        },
+        {
+          "transaction_id": "eval_b1_t0093",
+          "source": "processor_ledger",
+          "merchant_id": "merch_eval_0065",
+          "amount": "42.00",
+          "currency": "USD",
+          "timestamp": "2026-09-01T17:30:00Z",
+          "description": "Card payment for merchant services",
+          "raw_metadata": {
+            "card_last4": "7777"
+          }
+        },
+        {
+          "transaction_id": "eval_b1_t0094",
+          "source": "processor_ledger",
+          "merchant_id": "merch_eval_0066",
+          "amount": "43.00",
+          "currency": "USD",
+          "timestamp": "2026-09-01T18:00:00Z",
+          "description": "Card payment for merchant services",
+          "raw_metadata": {
+            "card_last4": "7777"
+          }
+        },
+        {
+          "transaction_id": "eval_b1_t0095",
+          "source": "processor_ledger",
+          "merchant_id": "merch_eval_0067",
+          "amount": "44.00",
+          "currency": "USD",
+          "timestamp": "2026-09-01T18:30:00Z",
+          "description": "Card payment for merchant services",
+          "raw_metadata": {
+            "card_last4": "7777"
+          }
+        },
+        {
+          "transaction_id": "eval_b1_t0096",
+          "source": "processor_ledger",
+          "merchant_id": "merch_eval_0068",
+          "amount": "45.00",
+          "currency": "USD",
+          "timestamp": "2026-09-01T19:00:00Z",
+          "description": "Card payment for merchant services",
+          "raw_metadata": {
+            "card_last4": "7777"
+          }
+        }
+      ]
+    },
+    {
+      "batch_id": "eval_batch_2",
+      "run_order": 2,
+      "transactions": [
+        {
+          "transaction_id": "eval_b2_t0018",
+          "source": "processor_ledger",
+          "merchant_id": "merch_eval_0012",
+          "amount": "75.00",
+          "currency": "USD",
+          "timestamp": "2026-09-08T09:00:00Z",
+          "description": "Card payment - order #90004",
+          "raw_metadata": {
+            "card_last4": "1111"
+          }
+        },
+        {
+          "transaction_id": "eval_b2_t0019",
+          "source": "processor_ledger",
+          "merchant_id": "merch_eval_0012",
+          "amount": "75.00",
+          "currency": "USD",
+          "timestamp": "2026-09-08T09:00:05Z",
+          "description": "Card payment - order #90004 (retry after timeout)",
+          "raw_metadata": {
+            "card_last4": "1111"
+          }
+        },
+        {
+          "transaction_id": "eval_b2_t0020",
+          "source": "processor_ledger",
+          "merchant_id": "merch_eval_0013",
+          "amount": "75.00",
+          "currency": "USD",
+          "timestamp": "2026-09-08T09:00:00Z",
+          "description": "Card payment - order #90005",
+          "raw_metadata": {
+            "card_last4": "1111"
+          }
+        },
+        {
+          "transaction_id": "eval_b2_t0021",
+          "source": "processor_ledger",
+          "merchant_id": "merch_eval_0013",
+          "amount": "75.00",
+          "currency": "USD",
+          "timestamp": "2026-09-08T09:00:05Z",
+          "description": "Card payment - order #90005 (retry after timeout)",
+          "raw_metadata": {
+            "card_last4": "1111"
+          }
+        },
+        {
+          "transaction_id": "eval_b2_t0022",
+          "source": "processor_ledger",
+          "merchant_id": "merch_eval_0014",
+          "amount": "50.00",
+          "currency": "USD",
+          "timestamp": "2026-09-08T09:00:00Z",
+          "description": "Card payment - order #90006",
+          "raw_metadata": {
+            "card_last4": "2222"
+          }
+        },
+        {
+          "transaction_id": "eval_b2_t0023",
+          "source": "processor_ledger",
+          "merchant_id": "merch_eval_0014",
+          "amount": "50.75",
+          "currency": "USD",
+          "timestamp": "2026-09-08T09:00:05Z",
+          "description": "Card payment - order #90006 (retry after timeout, surcharge applied)",
+          "raw_metadata": {
+            "card_last4": "2222"
+          }
+        },
+        {
+          "transaction_id": "eval_b2_t0024",
+          "source": "processor_ledger",
+          "merchant_id": "merch_eval_0015",
+          "amount": "-89.50",
+          "currency": "USD",
+          "timestamp": "2026-09-08T09:00:00Z",
+          "description": "Dispute filed by cardholder - unrecognized charge",
+          "raw_metadata": {
+            "dispute_id": "dp_eval_eval_b2_t0024",
+            "reason_code": "12.1"
+          }
+        },
+        {
+          "transaction_id": "eval_b2_t0025",
+          "source": "processor_ledger",
+          "merchant_id": "merch_eval_0016",
+          "amount": "-89.50",
+          "currency": "USD",
+          "timestamp": "2026-09-08T09:00:00Z",
+          "description": "Dispute filed by cardholder - unrecognized charge",
+          "raw_metadata": {
+            "dispute_id": "dp_eval_eval_b2_t0025",
+            "reason_code": "4837"
+          }
+        },
+        {
+          "transaction_id": "eval_b2_t0026",
+          "source": "processor_ledger",
+          "merchant_id": "merch_eval_0017",
+          "amount": "-64.20",
+          "currency": "USD",
+          "timestamp": "2026-09-08T09:00:00Z",
+          "description": "Dispute filed by cardholder - product not as described",
+          "raw_metadata": {
+            "dispute_id": "dp_eval_eval_b2_t0026"
+          }
+        },
+        {
+          "transaction_id": "eval_b2_t0027",
+          "source": "merchant_order_system",
+          "merchant_id": "merch_eval_0018",
+          "amount": "-33.10",
+          "currency": "USD",
+          "timestamp": "2026-09-08T09:00:00Z",
+          "description": "Refund issued for order - item returned",
+          "raw_metadata": {
+            "reason": "customer_return"
+          }
+        },
+        {
+          "transaction_id": "eval_b2_t0028",
+          "source": "merchant_order_system",
+          "merchant_id": "merch_eval_0019",
+          "amount": "-33.10",
+          "currency": "USD",
+          "timestamp": "2026-09-08T09:00:00Z",
+          "description": "Refund issued for order - item returned",
+          "raw_metadata": {
+            "reason": "customer_return"
+          }
+        },
+        {
+          "transaction_id": "eval_b2_t0029",
+          "source": "processor_ledger",
+          "merchant_id": "merch_eval_0020",
+          "amount": "200.00",
+          "currency": "USD",
+          "timestamp": "2026-09-08T09:00:00Z",
+          "description": "Card payment for merchant services",
+          "raw_metadata": {
+            "card_last4": "5555"
+          }
+        },
+        {
+          "transaction_id": "eval_b2_t0030",
+          "source": "merchant_order_system",
+          "merchant_id": "merch_eval_0020",
+          "amount": "-150.00",
+          "currency": "USD",
+          "timestamp": "2026-09-08T10:00:00Z",
+          "description": "Refund issued - item returned",
+          "raw_metadata": {
+            "reason": "customer_return"
+          }
+        },
+        {
+          "transaction_id": "eval_b2_t0031",
+          "source": "processor_ledger",
+          "merchant_id": "merch_eval_0021",
+          "amount": "200.00",
+          "currency": "USD",
+          "timestamp": "2026-09-08T09:00:00Z",
+          "description": "Card payment for merchant services",
+          "raw_metadata": {
+            "card_last4": "5555"
+          }
+        },
+        {
+          "transaction_id": "eval_b2_t0032",
+          "source": "merchant_order_system",
+          "merchant_id": "merch_eval_0021",
+          "amount": "-150.00",
+          "currency": "USD",
+          "timestamp": "2026-09-08T10:00:00Z",
+          "description": "Refund issued - item returned",
+          "raw_metadata": {
+            "reason": "customer_return"
+          }
+        },
+        {
+          "transaction_id": "eval_b2_t0033",
+          "source": "processor_ledger",
+          "merchant_id": "merch_eval_0022",
+          "amount": "200.00",
+          "currency": "USD",
+          "timestamp": "2026-09-08T09:00:00Z",
+          "description": "Card payment for merchant services",
+          "raw_metadata": {
+            "card_last4": "5555"
+          }
+        },
+        {
+          "transaction_id": "eval_b2_t0034",
+          "source": "merchant_order_system",
+          "merchant_id": "merch_eval_0022",
+          "amount": "-199.98",
+          "currency": "USD",
+          "timestamp": "2026-09-08T10:00:00Z",
+          "description": "Refund issued - item returned",
+          "raw_metadata": {
+            "reason": "customer_return"
+          }
+        },
+        {
+          "transaction_id": "eval_b2_t0053",
+          "source": "merchant_order_system",
+          "merchant_id": "merch_eval_0034",
+          "amount": "-112.40",
+          "currency": "USD",
+          "timestamp": "2026-09-08T09:00:00Z",
+          "description": "Refund issued - item returned",
+          "raw_metadata": {
+            "reason": "customer_return"
+          }
+        },
+        {
+          "transaction_id": "eval_b2_t0055",
+          "source": "merchant_order_system",
+          "merchant_id": "merch_eval_0035",
+          "amount": "-112.40",
+          "currency": "USD",
+          "timestamp": "2026-09-08T09:00:00Z",
+          "description": "Refund issued - item returned",
+          "raw_metadata": {
+            "reason": "customer_return"
+          }
+        },
+        {
+          "transaction_id": "eval_b2_t0056",
+          "source": "processor_ledger",
+          "merchant_id": "merch_eval_0036",
+          "amount": "112.40",
+          "currency": "USD",
+          "timestamp": "2026-09-08T09:00:00Z",
+          "description": "Card payment for merchant services",
+          "raw_metadata": {
+            "card_last4": "3333"
+          }
+        },
+        {
+          "transaction_id": "eval_b2_t0058",
+          "source": "processor_ledger",
+          "merchant_id": "merch_eval_0037",
+          "amount": "112.40",
+          "currency": "USD",
+          "timestamp": "2026-09-08T09:00:00Z",
+          "description": "Card payment for merchant services",
+          "raw_metadata": {
+            "card_last4": "3333"
+          }
+        },
+        {
+          "transaction_id": "eval_b2_t0061",
+          "source": "processor_ledger",
+          "merchant_id": "merch_eval_0038",
+          "amount": "58.75",
+          "currency": "USD",
+          "timestamp": "2026-09-08T09:00:00Z",
+          "description": "Card payment for merchant services",
+          "raw_metadata": {
+            "card_last4": "4444"
+          }
+        },
+        {
+          "transaction_id": "eval_b2_t0063",
+          "source": "processor_ledger",
+          "merchant_id": "merch_eval_0039",
+          "amount": "58.75",
+          "currency": "USD",
+          "timestamp": "2026-09-08T09:00:00Z",
+          "description": "Card payment for merchant services",
+          "raw_metadata": {
+            "card_last4": "4444"
+          }
+        },
+        {
+          "transaction_id": "eval_b2_t0064",
+          "source": "merchant_order_system",
+          "merchant_id": "merch_eval_0040",
+          "amount": "-58.75",
+          "currency": "USD",
+          "timestamp": "2026-09-08T09:00:00Z",
+          "description": "Refund issued - item returned",
+          "raw_metadata": {
+            "reason": "customer_return"
+          }
+        },
+        {
+          "transaction_id": "eval_b2_t0066",
+          "source": "merchant_order_system",
+          "merchant_id": "merch_eval_0041",
+          "amount": "-58.75",
+          "currency": "USD",
+          "timestamp": "2026-09-08T09:00:00Z",
+          "description": "Refund issued - item returned",
+          "raw_metadata": {
+            "reason": "customer_return"
+          }
+        },
+        {
+          "transaction_id": "eval_b2_t0097",
+          "source": "processor_ledger",
+          "merchant_id": "merch_eval_0069",
+          "amount": "40.00",
+          "currency": "USD",
+          "timestamp": "2026-09-08T09:00:00Z",
+          "description": "Card payment for merchant services",
+          "raw_metadata": {
+            "card_last4": "6666"
+          }
+        },
+        {
+          "transaction_id": "eval_b2_t0098",
+          "source": "merchant_order_system",
+          "merchant_id": "merch_eval_0069",
+          "amount": "-40.00",
+          "currency": "USD",
+          "timestamp": "2026-09-09T09:00:00Z",
+          "description": "Refund issued - item returned",
+          "raw_metadata": {
+            "reason": "customer_return"
+          }
+        },
+        {
+          "transaction_id": "eval_b2_t0099",
+          "source": "processor_ledger",
+          "merchant_id": "merch_eval_0070",
+          "amount": "41.00",
+          "currency": "USD",
+          "timestamp": "2026-09-08T09:10:00Z",
+          "description": "Card payment for merchant services",
+          "raw_metadata": {
+            "card_last4": "6666"
+          }
+        },
+        {
+          "transaction_id": "eval_b2_t0100",
+          "source": "merchant_order_system",
+          "merchant_id": "merch_eval_0070",
+          "amount": "-41.00",
+          "currency": "USD",
+          "timestamp": "2026-09-09T09:10:00Z",
+          "description": "Refund issued - item returned",
+          "raw_metadata": {
+            "reason": "customer_return"
+          }
+        },
+        {
+          "transaction_id": "eval_b2_t0101",
+          "source": "processor_ledger",
+          "merchant_id": "merch_eval_0071",
+          "amount": "2.50",
+          "currency": "USD",
+          "timestamp": "2026-09-08T09:00:00Z",
+          "description": "Monthly platform processing fee",
+          "raw_metadata": {
+            "fee_type": "platform"
+          }
+        },
+        {
+          "transaction_id": "eval_b2_t0102",
+          "source": "processor_ledger",
+          "merchant_id": "merch_eval_0072",
+          "amount": "2.50",
+          "currency": "USD",
+          "timestamp": "2026-09-08T09:20:00Z",
+          "description": "Monthly platform processing fee",
+          "raw_metadata": {
+            "fee_type": "platform"
+          }
+        },
+        {
+          "transaction_id": "eval_b2_t0103",
+          "source": "processor_ledger",
+          "merchant_id": "merch_eval_0073",
+          "amount": "2.50",
+          "currency": "USD",
+          "timestamp": "2026-09-08T09:40:00Z",
+          "description": "Monthly platform processing fee",
+          "raw_metadata": {
+            "fee_type": "platform"
+          }
+        },
+        {
+          "transaction_id": "eval_b2_t0104",
+          "source": "processor_ledger",
+          "merchant_id": "merch_eval_0074",
+          "amount": "25.00",
+          "currency": "USD",
+          "timestamp": "2026-09-08T09:00:00Z",
+          "description": "Card payment for merchant services",
+          "raw_metadata": {
+            "card_last4": "7777"
+          }
+        },
+        {
+          "transaction_id": "eval_b2_t0105",
+          "source": "processor_ledger",
+          "merchant_id": "merch_eval_0075",
+          "amount": "26.00",
+          "currency": "USD",
+          "timestamp": "2026-09-08T09:30:00Z",
+          "description": "Card payment for merchant services",
+          "raw_metadata": {
+            "card_last4": "7777"
+          }
+        },
+        {
+          "transaction_id": "eval_b2_t0106",
+          "source": "processor_ledger",
+          "merchant_id": "merch_eval_0076",
+          "amount": "27.00",
+          "currency": "USD",
+          "timestamp": "2026-09-08T10:00:00Z",
+          "description": "Card payment for merchant services",
+          "raw_metadata": {
+            "card_last4": "7777"
+          }
+        },
+        {
+          "transaction_id": "eval_b2_t0107",
+          "source": "processor_ledger",
+          "merchant_id": "merch_eval_0077",
+          "amount": "28.00",
+          "currency": "USD",
+          "timestamp": "2026-09-08T10:30:00Z",
+          "description": "Card payment for merchant services",
+          "raw_metadata": {
+            "card_last4": "7777"
+          }
+        },
+        {
+          "transaction_id": "eval_b2_t0108",
+          "source": "processor_ledger",
+          "merchant_id": "merch_eval_0078",
+          "amount": "29.00",
+          "currency": "USD",
+          "timestamp": "2026-09-08T11:00:00Z",
+          "description": "Card payment for merchant services",
+          "raw_metadata": {
+            "card_last4": "7777"
+          }
+        },
+        {
+          "transaction_id": "eval_b2_t0109",
+          "source": "processor_ledger",
+          "merchant_id": "merch_eval_0079",
+          "amount": "30.00",
+          "currency": "USD",
+          "timestamp": "2026-09-08T11:30:00Z",
+          "description": "Card payment for merchant services",
+          "raw_metadata": {
+            "card_last4": "7777"
+          }
+        },
+        {
+          "transaction_id": "eval_b2_t0110",
+          "source": "processor_ledger",
+          "merchant_id": "merch_eval_0080",
+          "amount": "31.00",
+          "currency": "USD",
+          "timestamp": "2026-09-08T12:00:00Z",
+          "description": "Card payment for merchant services",
+          "raw_metadata": {
+            "card_last4": "7777"
+          }
+        },
+        {
+          "transaction_id": "eval_b2_t0111",
+          "source": "processor_ledger",
+          "merchant_id": "merch_eval_0081",
+          "amount": "32.00",
+          "currency": "USD",
+          "timestamp": "2026-09-08T12:30:00Z",
+          "description": "Card payment for merchant services",
+          "raw_metadata": {
+            "card_last4": "7777"
+          }
+        },
+        {
+          "transaction_id": "eval_b2_t0112",
+          "source": "processor_ledger",
+          "merchant_id": "merch_eval_0082",
+          "amount": "33.00",
+          "currency": "USD",
+          "timestamp": "2026-09-08T13:00:00Z",
+          "description": "Card payment for merchant services",
+          "raw_metadata": {
+            "card_last4": "7777"
+          }
+        },
+        {
+          "transaction_id": "eval_b2_t0113",
+          "source": "processor_ledger",
+          "merchant_id": "merch_eval_0083",
+          "amount": "34.00",
+          "currency": "USD",
+          "timestamp": "2026-09-08T13:30:00Z",
+          "description": "Card payment for merchant services",
+          "raw_metadata": {
+            "card_last4": "7777"
+          }
+        },
+        {
+          "transaction_id": "eval_b2_t0114",
+          "source": "processor_ledger",
+          "merchant_id": "merch_eval_0084",
+          "amount": "35.00",
+          "currency": "USD",
+          "timestamp": "2026-09-08T14:00:00Z",
+          "description": "Card payment for merchant services",
+          "raw_metadata": {
+            "card_last4": "7777"
+          }
+        },
+        {
+          "transaction_id": "eval_b2_t0115",
+          "source": "processor_ledger",
+          "merchant_id": "merch_eval_0085",
+          "amount": "36.00",
+          "currency": "USD",
+          "timestamp": "2026-09-08T14:30:00Z",
+          "description": "Card payment for merchant services",
+          "raw_metadata": {
+            "card_last4": "7777"
+          }
+        },
+        {
+          "transaction_id": "eval_b2_t0116",
+          "source": "processor_ledger",
+          "merchant_id": "merch_eval_0086",
+          "amount": "37.00",
+          "currency": "USD",
+          "timestamp": "2026-09-08T15:00:00Z",
+          "description": "Card payment for merchant services",
+          "raw_metadata": {
+            "card_last4": "7777"
+          }
+        },
+        {
+          "transaction_id": "eval_b2_t0117",
+          "source": "processor_ledger",
+          "merchant_id": "merch_eval_0087",
+          "amount": "38.00",
+          "currency": "USD",
+          "timestamp": "2026-09-08T15:30:00Z",
+          "description": "Card payment for merchant services",
+          "raw_metadata": {
+            "card_last4": "7777"
+          }
+        },
+        {
+          "transaction_id": "eval_b2_t0118",
+          "source": "processor_ledger",
+          "merchant_id": "merch_eval_0088",
+          "amount": "39.00",
+          "currency": "USD",
+          "timestamp": "2026-09-08T16:00:00Z",
+          "description": "Card payment for merchant services",
+          "raw_metadata": {
+            "card_last4": "7777"
+          }
+        },
+        {
+          "transaction_id": "eval_b2_t0119",
+          "source": "processor_ledger",
+          "merchant_id": "merch_eval_0089",
+          "amount": "40.00",
+          "currency": "USD",
+          "timestamp": "2026-09-08T16:30:00Z",
+          "description": "Card payment for merchant services",
+          "raw_metadata": {
+            "card_last4": "7777"
+          }
+        },
+        {
+          "transaction_id": "eval_b2_t0120",
+          "source": "processor_ledger",
+          "merchant_id": "merch_eval_0090",
+          "amount": "41.00",
+          "currency": "USD",
+          "timestamp": "2026-09-08T17:00:00Z",
+          "description": "Card payment for merchant services",
+          "raw_metadata": {
+            "card_last4": "7777"
+          }
+        },
+        {
+          "transaction_id": "eval_b2_t0121",
+          "source": "processor_ledger",
+          "merchant_id": "merch_eval_0091",
+          "amount": "42.00",
+          "currency": "USD",
+          "timestamp": "2026-09-08T17:30:00Z",
+          "description": "Card payment for merchant services",
+          "raw_metadata": {
+            "card_last4": "7777"
+          }
+        }
+      ]
+    },
+    {
+      "batch_id": "eval_batch_3",
+      "run_order": 3,
+      "transactions": [
+        {
+          "transaction_id": "eval_b3_t0035",
+          "source": "processor_ledger",
+          "merchant_id": "merch_eval_0023",
+          "amount": "75.00",
+          "currency": "USD",
+          "timestamp": "2026-09-15T09:00:00Z",
+          "description": "Card payment - order #90007",
+          "raw_metadata": {
+            "card_last4": "1111"
+          }
+        },
+        {
+          "transaction_id": "eval_b3_t0036",
+          "source": "processor_ledger",
+          "merchant_id": "merch_eval_0023",
+          "amount": "75.00",
+          "currency": "USD",
+          "timestamp": "2026-09-15T09:00:05Z",
+          "description": "Card payment - order #90007 (retry after timeout)",
+          "raw_metadata": {
+            "card_last4": "1111"
+          }
+        },
+        {
+          "transaction_id": "eval_b3_t0037",
+          "source": "processor_ledger",
+          "merchant_id": "merch_eval_0024",
+          "amount": "75.00",
+          "currency": "USD",
+          "timestamp": "2026-09-15T09:00:00Z",
+          "description": "Card payment - order #90008",
+          "raw_metadata": {
+            "card_last4": "1111"
+          }
+        },
+        {
+          "transaction_id": "eval_b3_t0038",
+          "source": "processor_ledger",
+          "merchant_id": "merch_eval_0024",
+          "amount": "75.00",
+          "currency": "USD",
+          "timestamp": "2026-09-15T09:00:05Z",
+          "description": "Card payment - order #90008 (retry after timeout)",
+          "raw_metadata": {
+            "card_last4": "1111"
+          }
+        },
+        {
+          "transaction_id": "eval_b3_t0039",
+          "source": "processor_ledger",
+          "merchant_id": "merch_eval_0025",
+          "amount": "50.00",
+          "currency": "USD",
+          "timestamp": "2026-09-15T09:00:00Z",
+          "description": "Card payment - order #90009",
+          "raw_metadata": {
+            "card_last4": "2222"
+          }
+        },
+        {
+          "transaction_id": "eval_b3_t0040",
+          "source": "processor_ledger",
+          "merchant_id": "merch_eval_0025",
+          "amount": "50.75",
+          "currency": "USD",
+          "timestamp": "2026-09-15T09:00:05Z",
+          "description": "Card payment - order #90009 (retry after timeout, surcharge applied)",
+          "raw_metadata": {
+            "card_last4": "2222"
+          }
+        },
+        {
+          "transaction_id": "eval_b3_t0041",
+          "source": "processor_ledger",
+          "merchant_id": "merch_eval_0026",
+          "amount": "-89.50",
+          "currency": "USD",
+          "timestamp": "2026-09-15T09:00:00Z",
+          "description": "Dispute filed by cardholder - unrecognized charge",
+          "raw_metadata": {
+            "dispute_id": "dp_eval_eval_b3_t0041",
+            "reason_code": "4853"
+          }
+        },
+        {
+          "transaction_id": "eval_b3_t0042",
+          "source": "processor_ledger",
+          "merchant_id": "merch_eval_0027",
+          "amount": "-89.50",
+          "currency": "USD",
+          "timestamp": "2026-09-15T09:00:00Z",
+          "description": "Dispute filed by cardholder - unrecognized charge",
+          "raw_metadata": {
+            "dispute_id": "dp_eval_eval_b3_t0042",
+            "reason_code": "10.4"
+          }
+        },
+        {
+          "transaction_id": "eval_b3_t0043",
+          "source": "processor_ledger",
+          "merchant_id": "merch_eval_0028",
+          "amount": "-64.20",
+          "currency": "USD",
+          "timestamp": "2026-09-15T09:00:00Z",
+          "description": "Dispute filed by cardholder - product not as described",
+          "raw_metadata": {
+            "dispute_id": "dp_eval_eval_b3_t0043"
+          }
+        },
+        {
+          "transaction_id": "eval_b3_t0044",
+          "source": "merchant_order_system",
+          "merchant_id": "merch_eval_0029",
+          "amount": "-33.10",
+          "currency": "USD",
+          "timestamp": "2026-09-15T09:00:00Z",
+          "description": "Refund issued for order - item returned",
+          "raw_metadata": {
+            "reason": "customer_return"
+          }
+        },
+        {
+          "transaction_id": "eval_b3_t0045",
+          "source": "merchant_order_system",
+          "merchant_id": "merch_eval_0030",
+          "amount": "-33.10",
+          "currency": "USD",
+          "timestamp": "2026-09-15T09:00:00Z",
+          "description": "Refund issued for order - item returned",
+          "raw_metadata": {
+            "reason": "customer_return"
+          }
+        },
+        {
+          "transaction_id": "eval_b3_t0046",
+          "source": "processor_ledger",
+          "merchant_id": "merch_eval_0031",
+          "amount": "200.00",
+          "currency": "USD",
+          "timestamp": "2026-09-15T09:00:00Z",
+          "description": "Card payment for merchant services",
+          "raw_metadata": {
+            "card_last4": "5555"
+          }
+        },
+        {
+          "transaction_id": "eval_b3_t0047",
+          "source": "merchant_order_system",
+          "merchant_id": "merch_eval_0031",
+          "amount": "-150.00",
+          "currency": "USD",
+          "timestamp": "2026-09-15T10:00:00Z",
+          "description": "Refund issued - item returned",
+          "raw_metadata": {
+            "reason": "customer_return"
+          }
+        },
+        {
+          "transaction_id": "eval_b3_t0048",
+          "source": "processor_ledger",
+          "merchant_id": "merch_eval_0032",
+          "amount": "200.00",
+          "currency": "USD",
+          "timestamp": "2026-09-15T09:00:00Z",
+          "description": "Card payment for merchant services",
+          "raw_metadata": {
+            "card_last4": "5555"
+          }
+        },
+        {
+          "transaction_id": "eval_b3_t0049",
+          "source": "merchant_order_system",
+          "merchant_id": "merch_eval_0032",
+          "amount": "-150.00",
+          "currency": "USD",
+          "timestamp": "2026-09-15T10:00:00Z",
+          "description": "Refund issued - item returned",
+          "raw_metadata": {
+            "reason": "customer_return"
+          }
+        },
+        {
+          "transaction_id": "eval_b3_t0050",
+          "source": "processor_ledger",
+          "merchant_id": "merch_eval_0033",
+          "amount": "200.00",
+          "currency": "USD",
+          "timestamp": "2026-09-15T09:00:00Z",
+          "description": "Card payment for merchant services",
+          "raw_metadata": {
+            "card_last4": "5555"
+          }
+        },
+        {
+          "transaction_id": "eval_b3_t0051",
+          "source": "merchant_order_system",
+          "merchant_id": "merch_eval_0033",
+          "amount": "-199.98",
+          "currency": "USD",
+          "timestamp": "2026-09-15T10:00:00Z",
+          "description": "Refund issued - item returned",
+          "raw_metadata": {
+            "reason": "customer_return"
+          }
+        },
+        {
+          "transaction_id": "eval_b3_t0057",
+          "source": "merchant_order_system",
+          "merchant_id": "merch_eval_0036",
+          "amount": "-112.40",
+          "currency": "USD",
+          "timestamp": "2026-09-15T09:00:00Z",
+          "description": "Refund issued - item returned",
+          "raw_metadata": {
+            "reason": "customer_return"
+          }
+        },
+        {
+          "transaction_id": "eval_b3_t0059",
+          "source": "merchant_order_system",
+          "merchant_id": "merch_eval_0037",
+          "amount": "-112.40",
+          "currency": "USD",
+          "timestamp": "2026-09-15T09:00:00Z",
+          "description": "Refund issued - item returned",
+          "raw_metadata": {
+            "reason": "customer_return"
+          }
+        },
+        {
+          "transaction_id": "eval_b3_t0065",
+          "source": "processor_ledger",
+          "merchant_id": "merch_eval_0040",
+          "amount": "58.75",
+          "currency": "USD",
+          "timestamp": "2026-09-15T09:00:00Z",
+          "description": "Card payment for merchant services",
+          "raw_metadata": {
+            "card_last4": "4444"
+          }
+        },
+        {
+          "transaction_id": "eval_b3_t0067",
+          "source": "processor_ledger",
+          "merchant_id": "merch_eval_0041",
+          "amount": "58.75",
+          "currency": "USD",
+          "timestamp": "2026-09-15T09:00:00Z",
+          "description": "Card payment for merchant services",
+          "raw_metadata": {
+            "card_last4": "4444"
+          }
+        },
+        {
+          "transaction_id": "eval_b3_t0122",
+          "source": "processor_ledger",
+          "merchant_id": "merch_eval_0092",
+          "amount": "40.00",
+          "currency": "USD",
+          "timestamp": "2026-09-15T09:00:00Z",
+          "description": "Card payment for merchant services",
+          "raw_metadata": {
+            "card_last4": "6666"
+          }
+        },
+        {
+          "transaction_id": "eval_b3_t0123",
+          "source": "merchant_order_system",
+          "merchant_id": "merch_eval_0092",
+          "amount": "-40.00",
+          "currency": "USD",
+          "timestamp": "2026-09-16T09:00:00Z",
+          "description": "Refund issued - item returned",
+          "raw_metadata": {
+            "reason": "customer_return"
+          }
+        },
+        {
+          "transaction_id": "eval_b3_t0124",
+          "source": "processor_ledger",
+          "merchant_id": "merch_eval_0093",
+          "amount": "41.00",
+          "currency": "USD",
+          "timestamp": "2026-09-15T09:10:00Z",
+          "description": "Card payment for merchant services",
+          "raw_metadata": {
+            "card_last4": "6666"
+          }
+        },
+        {
+          "transaction_id": "eval_b3_t0125",
+          "source": "merchant_order_system",
+          "merchant_id": "merch_eval_0093",
+          "amount": "-41.00",
+          "currency": "USD",
+          "timestamp": "2026-09-16T09:10:00Z",
+          "description": "Refund issued - item returned",
+          "raw_metadata": {
+            "reason": "customer_return"
+          }
+        },
+        {
+          "transaction_id": "eval_b3_t0126",
+          "source": "processor_ledger",
+          "merchant_id": "merch_eval_0094",
+          "amount": "2.50",
+          "currency": "USD",
+          "timestamp": "2026-09-15T09:00:00Z",
+          "description": "Monthly platform processing fee",
+          "raw_metadata": {
+            "fee_type": "platform"
+          }
+        },
+        {
+          "transaction_id": "eval_b3_t0127",
+          "source": "processor_ledger",
+          "merchant_id": "merch_eval_0095",
+          "amount": "2.50",
+          "currency": "USD",
+          "timestamp": "2026-09-15T09:20:00Z",
+          "description": "Monthly platform processing fee",
+          "raw_metadata": {
+            "fee_type": "platform"
+          }
+        },
+        {
+          "transaction_id": "eval_b3_t0128",
+          "source": "processor_ledger",
+          "merchant_id": "merch_eval_0096",
+          "amount": "2.50",
+          "currency": "USD",
+          "timestamp": "2026-09-15T09:40:00Z",
+          "description": "Monthly platform processing fee",
+          "raw_metadata": {
+            "fee_type": "platform"
+          }
+        },
+        {
+          "transaction_id": "eval_b3_t0129",
+          "source": "processor_ledger",
+          "merchant_id": "merch_eval_0097",
+          "amount": "2.50",
+          "currency": "USD",
+          "timestamp": "2026-09-15T10:00:00Z",
+          "description": "Monthly platform processing fee",
+          "raw_metadata": {
+            "fee_type": "platform"
+          }
+        },
+        {
+          "transaction_id": "eval_b3_t0130",
+          "source": "processor_ledger",
+          "merchant_id": "merch_eval_0098",
+          "amount": "25.00",
+          "currency": "USD",
+          "timestamp": "2026-09-15T09:00:00Z",
+          "description": "Card payment for merchant services",
+          "raw_metadata": {
+            "card_last4": "7777"
+          }
+        },
+        {
+          "transaction_id": "eval_b3_t0131",
+          "source": "processor_ledger",
+          "merchant_id": "merch_eval_0099",
+          "amount": "26.00",
+          "currency": "USD",
+          "timestamp": "2026-09-15T09:30:00Z",
+          "description": "Card payment for merchant services",
+          "raw_metadata": {
+            "card_last4": "7777"
+          }
+        },
+        {
+          "transaction_id": "eval_b3_t0132",
+          "source": "processor_ledger",
+          "merchant_id": "merch_eval_0100",
+          "amount": "27.00",
+          "currency": "USD",
+          "timestamp": "2026-09-15T10:00:00Z",
+          "description": "Card payment for merchant services",
+          "raw_metadata": {
+            "card_last4": "7777"
+          }
+        },
+        {
+          "transaction_id": "eval_b3_t0133",
+          "source": "processor_ledger",
+          "merchant_id": "merch_eval_0101",
+          "amount": "28.00",
+          "currency": "USD",
+          "timestamp": "2026-09-15T10:30:00Z",
+          "description": "Card payment for merchant services",
+          "raw_metadata": {
+            "card_last4": "7777"
+          }
+        },
+        {
+          "transaction_id": "eval_b3_t0134",
+          "source": "processor_ledger",
+          "merchant_id": "merch_eval_0102",
+          "amount": "29.00",
+          "currency": "USD",
+          "timestamp": "2026-09-15T11:00:00Z",
+          "description": "Card payment for merchant services",
+          "raw_metadata": {
+            "card_last4": "7777"
+          }
+        },
+        {
+          "transaction_id": "eval_b3_t0135",
+          "source": "processor_ledger",
+          "merchant_id": "merch_eval_0103",
+          "amount": "30.00",
+          "currency": "USD",
+          "timestamp": "2026-09-15T11:30:00Z",
+          "description": "Card payment for merchant services",
+          "raw_metadata": {
+            "card_last4": "7777"
+          }
+        },
+        {
+          "transaction_id": "eval_b3_t0136",
+          "source": "processor_ledger",
+          "merchant_id": "merch_eval_0104",
+          "amount": "31.00",
+          "currency": "USD",
+          "timestamp": "2026-09-15T12:00:00Z",
+          "description": "Card payment for merchant services",
+          "raw_metadata": {
+            "card_last4": "7777"
+          }
+        },
+        {
+          "transaction_id": "eval_b3_t0137",
+          "source": "processor_ledger",
+          "merchant_id": "merch_eval_0105",
+          "amount": "32.00",
+          "currency": "USD",
+          "timestamp": "2026-09-15T12:30:00Z",
+          "description": "Card payment for merchant services",
+          "raw_metadata": {
+            "card_last4": "7777"
+          }
+        },
+        {
+          "transaction_id": "eval_b3_t0138",
+          "source": "processor_ledger",
+          "merchant_id": "merch_eval_0106",
+          "amount": "33.00",
+          "currency": "USD",
+          "timestamp": "2026-09-15T13:00:00Z",
+          "description": "Card payment for merchant services",
+          "raw_metadata": {
+            "card_last4": "7777"
+          }
+        },
+        {
+          "transaction_id": "eval_b3_t0139",
+          "source": "processor_ledger",
+          "merchant_id": "merch_eval_0107",
+          "amount": "34.00",
+          "currency": "USD",
+          "timestamp": "2026-09-15T13:30:00Z",
+          "description": "Card payment for merchant services",
+          "raw_metadata": {
+            "card_last4": "7777"
+          }
+        },
+        {
+          "transaction_id": "eval_b3_t0140",
+          "source": "processor_ledger",
+          "merchant_id": "merch_eval_0108",
+          "amount": "35.00",
+          "currency": "USD",
+          "timestamp": "2026-09-15T14:00:00Z",
+          "description": "Card payment for merchant services",
+          "raw_metadata": {
+            "card_last4": "7777"
+          }
+        },
+        {
+          "transaction_id": "eval_b3_t0141",
+          "source": "processor_ledger",
+          "merchant_id": "merch_eval_0109",
+          "amount": "36.00",
+          "currency": "USD",
+          "timestamp": "2026-09-15T14:30:00Z",
+          "description": "Card payment for merchant services",
+          "raw_metadata": {
+            "card_last4": "7777"
+          }
+        },
+        {
+          "transaction_id": "eval_b3_t0142",
+          "source": "processor_ledger",
+          "merchant_id": "merch_eval_0110",
+          "amount": "37.00",
+          "currency": "USD",
+          "timestamp": "2026-09-15T15:00:00Z",
+          "description": "Card payment for merchant services",
+          "raw_metadata": {
+            "card_last4": "7777"
+          }
+        },
+        {
+          "transaction_id": "eval_b3_t0143",
+          "source": "processor_ledger",
+          "merchant_id": "merch_eval_0111",
+          "amount": "38.00",
+          "currency": "USD",
+          "timestamp": "2026-09-15T15:30:00Z",
+          "description": "Card payment for merchant services",
+          "raw_metadata": {
+            "card_last4": "7777"
+          }
+        },
+        {
+          "transaction_id": "eval_b3_t0144",
+          "source": "processor_ledger",
+          "merchant_id": "merch_eval_0112",
+          "amount": "39.00",
+          "currency": "USD",
+          "timestamp": "2026-09-15T16:00:00Z",
+          "description": "Card payment for merchant services",
+          "raw_metadata": {
+            "card_last4": "7777"
+          }
+        },
+        {
+          "transaction_id": "eval_b3_t0145",
+          "source": "processor_ledger",
+          "merchant_id": "merch_eval_0113",
+          "amount": "40.00",
+          "currency": "USD",
+          "timestamp": "2026-09-15T16:30:00Z",
+          "description": "Card payment for merchant services",
+          "raw_metadata": {
+            "card_last4": "7777"
+          }
+        },
+        {
+          "transaction_id": "eval_b3_t0146",
+          "source": "processor_ledger",
+          "merchant_id": "merch_eval_0114",
+          "amount": "41.00",
+          "currency": "USD",
+          "timestamp": "2026-09-15T17:00:00Z",
+          "description": "Card payment for merchant services",
+          "raw_metadata": {
+            "card_last4": "7777"
+          }
+        },
+        {
+          "transaction_id": "eval_b3_t0147",
+          "source": "processor_ledger",
+          "merchant_id": "merch_eval_0115",
+          "amount": "42.00",
+          "currency": "USD",
+          "timestamp": "2026-09-15T17:30:00Z",
+          "description": "Card payment for merchant services",
+          "raw_metadata": {
+            "card_last4": "7777"
+          }
+        },
+        {
+          "transaction_id": "eval_b3_t0148",
+          "source": "processor_ledger",
+          "merchant_id": "merch_eval_0116",
+          "amount": "43.00",
+          "currency": "USD",
+          "timestamp": "2026-09-15T18:00:00Z",
+          "description": "Card payment for merchant services",
+          "raw_metadata": {
+            "card_last4": "7777"
+          }
+        },
+        {
+          "transaction_id": "eval_b3_t0149",
+          "source": "processor_ledger",
+          "merchant_id": "merch_eval_0117",
+          "amount": "44.00",
+          "currency": "USD",
+          "timestamp": "2026-09-15T18:30:00Z",
+          "description": "Card payment for merchant services",
+          "raw_metadata": {
+            "card_last4": "7777"
+          }
+        },
+        {
+          "transaction_id": "eval_b3_t0150",
+          "source": "processor_ledger",
+          "merchant_id": "merch_eval_0118",
+          "amount": "45.00",
+          "currency": "USD",
+          "timestamp": "2026-09-15T19:00:00Z",
+          "description": "Card payment for merchant services",
+          "raw_metadata": {
+            "card_last4": "7777"
+          }
+        }
+      ]
+    }
+  ],
+  "ground_truth": {
+    "eval_b1_t0001": {
+      "scenario": "duplicate_charge_same_batch",
+      "expected_type": "payment",
+      "expected_match": {
+        "match_type": "duplicate_pair",
+        "with": "eval_b1_t0002"
+      },
+      "expected_anomaly": {
+        "anomaly_type": "duplicate_charge",
+        "severity": "high"
+      }
+    },
+    "eval_b1_t0002": {
+      "scenario": "duplicate_charge_same_batch",
+      "expected_type": "duplicate_charge",
+      "expected_match": {
+        "match_type": "duplicate_pair",
+        "with": "eval_b1_t0001"
+      },
+      "expected_anomaly": {
+        "anomaly_type": "duplicate_charge",
+        "severity": "high"
+      }
+    },
+    "eval_b1_t0003": {
+      "scenario": "duplicate_charge_same_batch",
+      "expected_type": "payment",
+      "expected_match": {
+        "match_type": "duplicate_pair",
+        "with": "eval_b1_t0004"
+      },
+      "expected_anomaly": {
+        "anomaly_type": "duplicate_charge",
+        "severity": "high"
+      }
+    },
+    "eval_b1_t0004": {
+      "scenario": "duplicate_charge_same_batch",
+      "expected_type": "duplicate_charge",
+      "expected_match": {
+        "match_type": "duplicate_pair",
+        "with": "eval_b1_t0003"
+      },
+      "expected_anomaly": {
+        "anomaly_type": "duplicate_charge",
+        "severity": "high"
+      }
+    },
+    "eval_b1_t0005": {
+      "scenario": "duplicate_charge_near_miss",
+      "expected_type": "payment",
+      "expected_match": null,
+      "expected_anomaly": null
+    },
+    "eval_b1_t0006": {
+      "scenario": "duplicate_charge_near_miss",
+      "expected_type": "duplicate_charge",
+      "expected_match": null,
+      "expected_anomaly": null
+    },
+    "eval_b1_t0007": {
+      "scenario": "unresolved_chargeback_known_reason",
+      "expected_type": "chargeback",
+      "expected_match": null,
+      "expected_anomaly": {
+        "anomaly_type": "unresolved_chargeback",
+        "severity": "high"
+      }
+    },
+    "eval_b1_t0008": {
+      "scenario": "unresolved_chargeback_known_reason",
+      "expected_type": "chargeback",
+      "expected_match": null,
+      "expected_anomaly": {
+        "anomaly_type": "unresolved_chargeback",
+        "severity": "high"
+      }
+    },
+    "eval_b1_t0009": {
+      "scenario": "unresolved_chargeback_unknown_reason",
+      "expected_type": "chargeback",
+      "expected_match": null,
+      "expected_anomaly": {
+        "anomaly_type": "unresolved_chargeback",
+        "severity": "high"
+      }
+    },
+    "eval_b1_t0010": {
+      "scenario": "missing_record_never_resolves",
+      "expected_type": "refund",
+      "expected_match": null,
+      "expected_anomaly": {
+        "anomaly_type": "missing_record",
+        "severity": "medium"
+      },
+      "expected_resolution": {
+        "outcome": "unresolved"
+      }
+    },
+    "eval_b1_t0011": {
+      "scenario": "missing_record_never_resolves",
+      "expected_type": "refund",
+      "expected_match": null,
+      "expected_anomaly": {
+        "anomaly_type": "missing_record",
+        "severity": "medium"
+      },
+      "expected_resolution": {
+        "outcome": "unresolved"
+      }
+    },
+    "eval_b1_t0012": {
+      "scenario": "amount_mismatch_clear",
+      "expected_type": "payment",
+      "expected_match": {
+        "match_type": "amount_mismatch_pair",
+        "with": "eval_b1_t0013"
+      },
+      "expected_anomaly": {
+        "anomaly_type": "amount_mismatch",
+        "severity": "high"
+      }
+    },
+    "eval_b1_t0013": {
+      "scenario": "amount_mismatch_clear",
+      "expected_type": "refund",
+      "expected_match": {
+        "match_type": "amount_mismatch_pair",
+        "with": "eval_b1_t0012"
+      },
+      "expected_anomaly": {
+        "anomaly_type": "amount_mismatch",
+        "severity": "high"
+      }
+    },
+    "eval_b1_t0014": {
+      "scenario": "amount_mismatch_clear",
+      "expected_type": "payment",
+      "expected_match": {
+        "match_type": "amount_mismatch_pair",
+        "with": "eval_b1_t0015"
+      },
+      "expected_anomaly": {
+        "anomaly_type": "amount_mismatch",
+        "severity": "high"
+      }
+    },
+    "eval_b1_t0015": {
+      "scenario": "amount_mismatch_clear",
+      "expected_type": "refund",
+      "expected_match": {
+        "match_type": "amount_mismatch_pair",
+        "with": "eval_b1_t0014"
+      },
+      "expected_anomaly": {
+        "anomaly_type": "amount_mismatch",
+        "severity": "high"
+      }
+    },
+    "eval_b1_t0016": {
+      "scenario": "amount_mismatch_trivial",
+      "expected_type": "payment",
+      "expected_match": {
+        "match_type": "refund_pair",
+        "with": "eval_b1_t0017"
+      },
+      "expected_anomaly": null
+    },
+    "eval_b1_t0017": {
+      "scenario": "amount_mismatch_trivial",
+      "expected_type": "refund",
+      "expected_match": {
+        "match_type": "refund_pair",
+        "with": "eval_b1_t0016"
+      },
+      "expected_anomaly": null
+    },
+    "eval_b2_t0018": {
+      "scenario": "duplicate_charge_same_batch",
+      "expected_type": "payment",
+      "expected_match": {
+        "match_type": "duplicate_pair",
+        "with": "eval_b2_t0019"
+      },
+      "expected_anomaly": {
+        "anomaly_type": "duplicate_charge",
+        "severity": "high"
+      }
+    },
+    "eval_b2_t0019": {
+      "scenario": "duplicate_charge_same_batch",
+      "expected_type": "duplicate_charge",
+      "expected_match": {
+        "match_type": "duplicate_pair",
+        "with": "eval_b2_t0018"
+      },
+      "expected_anomaly": {
+        "anomaly_type": "duplicate_charge",
+        "severity": "high"
+      }
+    },
+    "eval_b2_t0020": {
+      "scenario": "duplicate_charge_same_batch",
+      "expected_type": "payment",
+      "expected_match": {
+        "match_type": "duplicate_pair",
+        "with": "eval_b2_t0021"
+      },
+      "expected_anomaly": {
+        "anomaly_type": "duplicate_charge",
+        "severity": "high"
+      }
+    },
+    "eval_b2_t0021": {
+      "scenario": "duplicate_charge_same_batch",
+      "expected_type": "duplicate_charge",
+      "expected_match": {
+        "match_type": "duplicate_pair",
+        "with": "eval_b2_t0020"
+      },
+      "expected_anomaly": {
+        "anomaly_type": "duplicate_charge",
+        "severity": "high"
+      }
+    },
+    "eval_b2_t0022": {
+      "scenario": "duplicate_charge_near_miss",
+      "expected_type": "payment",
+      "expected_match": null,
+      "expected_anomaly": null
+    },
+    "eval_b2_t0023": {
+      "scenario": "duplicate_charge_near_miss",
+      "expected_type": "duplicate_charge",
+      "expected_match": null,
+      "expected_anomaly": null
+    },
+    "eval_b2_t0024": {
+      "scenario": "unresolved_chargeback_known_reason",
+      "expected_type": "chargeback",
+      "expected_match": null,
+      "expected_anomaly": {
+        "anomaly_type": "unresolved_chargeback",
+        "severity": "high"
+      }
+    },
+    "eval_b2_t0025": {
+      "scenario": "unresolved_chargeback_known_reason",
+      "expected_type": "chargeback",
+      "expected_match": null,
+      "expected_anomaly": {
+        "anomaly_type": "unresolved_chargeback",
+        "severity": "high"
+      }
+    },
+    "eval_b2_t0026": {
+      "scenario": "unresolved_chargeback_unknown_reason",
+      "expected_type": "chargeback",
+      "expected_match": null,
+      "expected_anomaly": {
+        "anomaly_type": "unresolved_chargeback",
+        "severity": "high"
+      }
+    },
+    "eval_b2_t0027": {
+      "scenario": "missing_record_never_resolves",
+      "expected_type": "refund",
+      "expected_match": null,
+      "expected_anomaly": {
+        "anomaly_type": "missing_record",
+        "severity": "medium"
+      },
+      "expected_resolution": {
+        "outcome": "unresolved"
+      }
+    },
+    "eval_b2_t0028": {
+      "scenario": "missing_record_never_resolves",
+      "expected_type": "refund",
+      "expected_match": null,
+      "expected_anomaly": {
+        "anomaly_type": "missing_record",
+        "severity": "medium"
+      },
+      "expected_resolution": {
+        "outcome": "unresolved"
+      }
+    },
+    "eval_b2_t0029": {
+      "scenario": "amount_mismatch_clear",
+      "expected_type": "payment",
+      "expected_match": {
+        "match_type": "amount_mismatch_pair",
+        "with": "eval_b2_t0030"
+      },
+      "expected_anomaly": {
+        "anomaly_type": "amount_mismatch",
+        "severity": "high"
+      }
+    },
+    "eval_b2_t0030": {
+      "scenario": "amount_mismatch_clear",
+      "expected_type": "refund",
+      "expected_match": {
+        "match_type": "amount_mismatch_pair",
+        "with": "eval_b2_t0029"
+      },
+      "expected_anomaly": {
+        "anomaly_type": "amount_mismatch",
+        "severity": "high"
+      }
+    },
+    "eval_b2_t0031": {
+      "scenario": "amount_mismatch_clear",
+      "expected_type": "payment",
+      "expected_match": {
+        "match_type": "amount_mismatch_pair",
+        "with": "eval_b2_t0032"
+      },
+      "expected_anomaly": {
+        "anomaly_type": "amount_mismatch",
+        "severity": "high"
+      }
+    },
+    "eval_b2_t0032": {
+      "scenario": "amount_mismatch_clear",
+      "expected_type": "refund",
+      "expected_match": {
+        "match_type": "amount_mismatch_pair",
+        "with": "eval_b2_t0031"
+      },
+      "expected_anomaly": {
+        "anomaly_type": "amount_mismatch",
+        "severity": "high"
+      }
+    },
+    "eval_b2_t0033": {
+      "scenario": "amount_mismatch_trivial",
+      "expected_type": "payment",
+      "expected_match": {
+        "match_type": "refund_pair",
+        "with": "eval_b2_t0034"
+      },
+      "expected_anomaly": null
+    },
+    "eval_b2_t0034": {
+      "scenario": "amount_mismatch_trivial",
+      "expected_type": "refund",
+      "expected_match": {
+        "match_type": "refund_pair",
+        "with": "eval_b2_t0033"
+      },
+      "expected_anomaly": null
+    },
+    "eval_b3_t0035": {
+      "scenario": "duplicate_charge_same_batch",
+      "expected_type": "payment",
+      "expected_match": {
+        "match_type": "duplicate_pair",
+        "with": "eval_b3_t0036"
+      },
+      "expected_anomaly": {
+        "anomaly_type": "duplicate_charge",
+        "severity": "high"
+      }
+    },
+    "eval_b3_t0036": {
+      "scenario": "duplicate_charge_same_batch",
+      "expected_type": "duplicate_charge",
+      "expected_match": {
+        "match_type": "duplicate_pair",
+        "with": "eval_b3_t0035"
+      },
+      "expected_anomaly": {
+        "anomaly_type": "duplicate_charge",
+        "severity": "high"
+      }
+    },
+    "eval_b3_t0037": {
+      "scenario": "duplicate_charge_same_batch",
+      "expected_type": "payment",
+      "expected_match": {
+        "match_type": "duplicate_pair",
+        "with": "eval_b3_t0038"
+      },
+      "expected_anomaly": {
+        "anomaly_type": "duplicate_charge",
+        "severity": "high"
+      }
+    },
+    "eval_b3_t0038": {
+      "scenario": "duplicate_charge_same_batch",
+      "expected_type": "duplicate_charge",
+      "expected_match": {
+        "match_type": "duplicate_pair",
+        "with": "eval_b3_t0037"
+      },
+      "expected_anomaly": {
+        "anomaly_type": "duplicate_charge",
+        "severity": "high"
+      }
+    },
+    "eval_b3_t0039": {
+      "scenario": "duplicate_charge_near_miss",
+      "expected_type": "payment",
+      "expected_match": null,
+      "expected_anomaly": null
+    },
+    "eval_b3_t0040": {
+      "scenario": "duplicate_charge_near_miss",
+      "expected_type": "duplicate_charge",
+      "expected_match": null,
+      "expected_anomaly": null
+    },
+    "eval_b3_t0041": {
+      "scenario": "unresolved_chargeback_known_reason",
+      "expected_type": "chargeback",
+      "expected_match": null,
+      "expected_anomaly": {
+        "anomaly_type": "unresolved_chargeback",
+        "severity": "high"
+      }
+    },
+    "eval_b3_t0042": {
+      "scenario": "unresolved_chargeback_known_reason",
+      "expected_type": "chargeback",
+      "expected_match": null,
+      "expected_anomaly": {
+        "anomaly_type": "unresolved_chargeback",
+        "severity": "high"
+      }
+    },
+    "eval_b3_t0043": {
+      "scenario": "unresolved_chargeback_unknown_reason",
+      "expected_type": "chargeback",
+      "expected_match": null,
+      "expected_anomaly": {
+        "anomaly_type": "unresolved_chargeback",
+        "severity": "high"
+      }
+    },
+    "eval_b3_t0044": {
+      "scenario": "missing_record_never_resolves",
+      "expected_type": "refund",
+      "expected_match": null,
+      "expected_anomaly": {
+        "anomaly_type": "missing_record",
+        "severity": "medium"
+      },
+      "expected_resolution": {
+        "outcome": "unresolved"
+      }
+    },
+    "eval_b3_t0045": {
+      "scenario": "missing_record_never_resolves",
+      "expected_type": "refund",
+      "expected_match": null,
+      "expected_anomaly": {
+        "anomaly_type": "missing_record",
+        "severity": "medium"
+      },
+      "expected_resolution": {
+        "outcome": "unresolved"
+      }
+    },
+    "eval_b3_t0046": {
+      "scenario": "amount_mismatch_clear",
+      "expected_type": "payment",
+      "expected_match": {
+        "match_type": "amount_mismatch_pair",
+        "with": "eval_b3_t0047"
+      },
+      "expected_anomaly": {
+        "anomaly_type": "amount_mismatch",
+        "severity": "high"
+      }
+    },
+    "eval_b3_t0047": {
+      "scenario": "amount_mismatch_clear",
+      "expected_type": "refund",
+      "expected_match": {
+        "match_type": "amount_mismatch_pair",
+        "with": "eval_b3_t0046"
+      },
+      "expected_anomaly": {
+        "anomaly_type": "amount_mismatch",
+        "severity": "high"
+      }
+    },
+    "eval_b3_t0048": {
+      "scenario": "amount_mismatch_clear",
+      "expected_type": "payment",
+      "expected_match": {
+        "match_type": "amount_mismatch_pair",
+        "with": "eval_b3_t0049"
+      },
+      "expected_anomaly": {
+        "anomaly_type": "amount_mismatch",
+        "severity": "high"
+      }
+    },
+    "eval_b3_t0049": {
+      "scenario": "amount_mismatch_clear",
+      "expected_type": "refund",
+      "expected_match": {
+        "match_type": "amount_mismatch_pair",
+        "with": "eval_b3_t0048"
+      },
+      "expected_anomaly": {
+        "anomaly_type": "amount_mismatch",
+        "severity": "high"
+      }
+    },
+    "eval_b3_t0050": {
+      "scenario": "amount_mismatch_trivial",
+      "expected_type": "payment",
+      "expected_match": {
+        "match_type": "refund_pair",
+        "with": "eval_b3_t0051"
+      },
+      "expected_anomaly": null
+    },
+    "eval_b3_t0051": {
+      "scenario": "amount_mismatch_trivial",
+      "expected_type": "refund",
+      "expected_match": {
+        "match_type": "refund_pair",
+        "with": "eval_b3_t0050"
+      },
+      "expected_anomaly": null
+    },
+    "eval_b1_t0052": {
+      "scenario": "missing_record_earlier_batch_counterpart",
+      "expected_type": "payment",
+      "expected_match": null,
+      "expected_anomaly": null
+    },
+    "eval_b2_t0053": {
+      "scenario": "missing_record_earlier_batch",
+      "expected_type": "refund",
+      "expected_match": null,
+      "expected_anomaly": {
+        "anomaly_type": "missing_record",
+        "severity": "medium"
+      },
+      "expected_resolution": {
+        "outcome": "auto_resolved",
+        "counterpart_batch": "eval_batch_1",
+        "counterpart_txn": "eval_b1_t0052"
+      }
+    },
+    "eval_b1_t0054": {
+      "scenario": "missing_record_earlier_batch_counterpart",
+      "expected_type": "payment",
+      "expected_match": null,
+      "expected_anomaly": null
+    },
+    "eval_b2_t0055": {
+      "scenario": "missing_record_earlier_batch",
+      "expected_type": "refund",
+      "expected_match": null,
+      "expected_anomaly": {
+        "anomaly_type": "missing_record",
+        "severity": "medium"
+      },
+      "expected_resolution": {
+        "outcome": "auto_resolved",
+        "counterpart_batch": "eval_batch_1",
+        "counterpart_txn": "eval_b1_t0054"
+      }
+    },
+    "eval_b2_t0056": {
+      "scenario": "missing_record_earlier_batch_counterpart",
+      "expected_type": "payment",
+      "expected_match": null,
+      "expected_anomaly": null
+    },
+    "eval_b3_t0057": {
+      "scenario": "missing_record_earlier_batch",
+      "expected_type": "refund",
+      "expected_match": null,
+      "expected_anomaly": {
+        "anomaly_type": "missing_record",
+        "severity": "medium"
+      },
+      "expected_resolution": {
+        "outcome": "auto_resolved",
+        "counterpart_batch": "eval_batch_2",
+        "counterpart_txn": "eval_b2_t0056"
+      }
+    },
+    "eval_b2_t0058": {
+      "scenario": "missing_record_earlier_batch_counterpart",
+      "expected_type": "payment",
+      "expected_match": null,
+      "expected_anomaly": null
+    },
+    "eval_b3_t0059": {
+      "scenario": "missing_record_earlier_batch",
+      "expected_type": "refund",
+      "expected_match": null,
+      "expected_anomaly": {
+        "anomaly_type": "missing_record",
+        "severity": "medium"
+      },
+      "expected_resolution": {
+        "outcome": "auto_resolved",
+        "counterpart_batch": "eval_batch_2",
+        "counterpart_txn": "eval_b2_t0058"
+      }
+    },
+    "eval_b1_t0060": {
+      "scenario": "missing_record_later_batch",
+      "expected_type": "refund",
+      "expected_match": null,
+      "expected_anomaly": {
+        "anomaly_type": "missing_record",
+        "severity": "medium"
+      },
+      "expected_resolution": {
+        "outcome": "not_yet_resolved",
+        "counterpart_batch": "eval_batch_2",
+        "counterpart_txn": "eval_b2_t0061"
+      }
+    },
+    "eval_b2_t0061": {
+      "scenario": "missing_record_later_batch_counterpart",
+      "expected_type": "payment",
+      "expected_match": null,
+      "expected_anomaly": null
+    },
+    "eval_b1_t0062": {
+      "scenario": "missing_record_later_batch",
+      "expected_type": "refund",
+      "expected_match": null,
+      "expected_anomaly": {
+        "anomaly_type": "missing_record",
+        "severity": "medium"
+      },
+      "expected_resolution": {
+        "outcome": "not_yet_resolved",
+        "counterpart_batch": "eval_batch_2",
+        "counterpart_txn": "eval_b2_t0063"
+      }
+    },
+    "eval_b2_t0063": {
+      "scenario": "missing_record_later_batch_counterpart",
+      "expected_type": "payment",
+      "expected_match": null,
+      "expected_anomaly": null
+    },
+    "eval_b2_t0064": {
+      "scenario": "missing_record_later_batch",
+      "expected_type": "refund",
+      "expected_match": null,
+      "expected_anomaly": {
+        "anomaly_type": "missing_record",
+        "severity": "medium"
+      },
+      "expected_resolution": {
+        "outcome": "not_yet_resolved",
+        "counterpart_batch": "eval_batch_3",
+        "counterpart_txn": "eval_b3_t0065"
+      }
+    },
+    "eval_b3_t0065": {
+      "scenario": "missing_record_later_batch_counterpart",
+      "expected_type": "payment",
+      "expected_match": null,
+      "expected_anomaly": null
+    },
+    "eval_b2_t0066": {
+      "scenario": "missing_record_later_batch",
+      "expected_type": "refund",
+      "expected_match": null,
+      "expected_anomaly": {
+        "anomaly_type": "missing_record",
+        "severity": "medium"
+      },
+      "expected_resolution": {
+        "outcome": "not_yet_resolved",
+        "counterpart_batch": "eval_batch_3",
+        "counterpart_txn": "eval_b3_t0067"
+      }
+    },
+    "eval_b3_t0067": {
+      "scenario": "missing_record_later_batch_counterpart",
+      "expected_type": "payment",
+      "expected_match": null,
+      "expected_anomaly": null
+    },
+    "eval_b1_t0068": {
+      "scenario": "clean_matched_refund_pair",
+      "expected_type": "payment",
+      "expected_match": {
+        "match_type": "refund_pair",
+        "with": "eval_b1_t0069"
+      },
+      "expected_anomaly": null
+    },
+    "eval_b1_t0069": {
+      "scenario": "clean_matched_refund_pair",
+      "expected_type": "refund",
+      "expected_match": {
+        "match_type": "refund_pair",
+        "with": "eval_b1_t0068"
+      },
+      "expected_anomaly": null
+    },
+    "eval_b1_t0070": {
+      "scenario": "clean_matched_refund_pair",
+      "expected_type": "payment",
+      "expected_match": {
+        "match_type": "refund_pair",
+        "with": "eval_b1_t0071"
+      },
+      "expected_anomaly": null
+    },
+    "eval_b1_t0071": {
+      "scenario": "clean_matched_refund_pair",
+      "expected_type": "refund",
+      "expected_match": {
+        "match_type": "refund_pair",
+        "with": "eval_b1_t0070"
+      },
+      "expected_anomaly": null
+    },
+    "eval_b1_t0072": {
+      "scenario": "clean_payment",
+      "expected_type": "fee",
+      "expected_match": null,
+      "expected_anomaly": null
+    },
+    "eval_b1_t0073": {
+      "scenario": "clean_payment",
+      "expected_type": "fee",
+      "expected_match": null,
+      "expected_anomaly": null
+    },
+    "eval_b1_t0074": {
+      "scenario": "clean_payment",
+      "expected_type": "fee",
+      "expected_match": null,
+      "expected_anomaly": null
+    },
+    "eval_b1_t0075": {
+      "scenario": "clean_payment",
+      "expected_type": "fee",
+      "expected_match": null,
+      "expected_anomaly": null
+    },
+    "eval_b1_t0076": {
+      "scenario": "clean_payment",
+      "expected_type": "payment",
+      "expected_match": null,
+      "expected_anomaly": null
+    },
+    "eval_b1_t0077": {
+      "scenario": "clean_payment",
+      "expected_type": "payment",
+      "expected_match": null,
+      "expected_anomaly": null
+    },
+    "eval_b1_t0078": {
+      "scenario": "clean_payment",
+      "expected_type": "payment",
+      "expected_match": null,
+      "expected_anomaly": null
+    },
+    "eval_b1_t0079": {
+      "scenario": "clean_payment",
+      "expected_type": "payment",
+      "expected_match": null,
+      "expected_anomaly": null
+    },
+    "eval_b1_t0080": {
+      "scenario": "clean_payment",
+      "expected_type": "payment",
+      "expected_match": null,
+      "expected_anomaly": null
+    },
+    "eval_b1_t0081": {
+      "scenario": "clean_payment",
+      "expected_type": "payment",
+      "expected_match": null,
+      "expected_anomaly": null
+    },
+    "eval_b1_t0082": {
+      "scenario": "clean_payment",
+      "expected_type": "payment",
+      "expected_match": null,
+      "expected_anomaly": null
+    },
+    "eval_b1_t0083": {
+      "scenario": "clean_payment",
+      "expected_type": "payment",
+      "expected_match": null,
+      "expected_anomaly": null
+    },
+    "eval_b1_t0084": {
+      "scenario": "clean_payment",
+      "expected_type": "payment",
+      "expected_match": null,
+      "expected_anomaly": null
+    },
+    "eval_b1_t0085": {
+      "scenario": "clean_payment",
+      "expected_type": "payment",
+      "expected_match": null,
+      "expected_anomaly": null
+    },
+    "eval_b1_t0086": {
+      "scenario": "clean_payment",
+      "expected_type": "payment",
+      "expected_match": null,
+      "expected_anomaly": null
+    },
+    "eval_b1_t0087": {
+      "scenario": "clean_payment",
+      "expected_type": "payment",
+      "expected_match": null,
+      "expected_anomaly": null
+    },
+    "eval_b1_t0088": {
+      "scenario": "clean_payment",
+      "expected_type": "payment",
+      "expected_match": null,
+      "expected_anomaly": null
+    },
+    "eval_b1_t0089": {
+      "scenario": "clean_payment",
+      "expected_type": "payment",
+      "expected_match": null,
+      "expected_anomaly": null
+    },
+    "eval_b1_t0090": {
+      "scenario": "clean_payment",
+      "expected_type": "payment",
+      "expected_match": null,
+      "expected_anomaly": null
+    },
+    "eval_b1_t0091": {
+      "scenario": "clean_payment",
+      "expected_type": "payment",
+      "expected_match": null,
+      "expected_anomaly": null
+    },
+    "eval_b1_t0092": {
+      "scenario": "clean_payment",
+      "expected_type": "payment",
+      "expected_match": null,
+      "expected_anomaly": null
+    },
+    "eval_b1_t0093": {
+      "scenario": "clean_payment",
+      "expected_type": "payment",
+      "expected_match": null,
+      "expected_anomaly": null
+    },
+    "eval_b1_t0094": {
+      "scenario": "clean_payment",
+      "expected_type": "payment",
+      "expected_match": null,
+      "expected_anomaly": null
+    },
+    "eval_b1_t0095": {
+      "scenario": "clean_payment",
+      "expected_type": "payment",
+      "expected_match": null,
+      "expected_anomaly": null
+    },
+    "eval_b1_t0096": {
+      "scenario": "clean_payment",
+      "expected_type": "payment",
+      "expected_match": null,
+      "expected_anomaly": null
+    },
+    "eval_b2_t0097": {
+      "scenario": "clean_matched_refund_pair",
+      "expected_type": "payment",
+      "expected_match": {
+        "match_type": "refund_pair",
+        "with": "eval_b2_t0098"
+      },
+      "expected_anomaly": null
+    },
+    "eval_b2_t0098": {
+      "scenario": "clean_matched_refund_pair",
+      "expected_type": "refund",
+      "expected_match": {
+        "match_type": "refund_pair",
+        "with": "eval_b2_t0097"
+      },
+      "expected_anomaly": null
+    },
+    "eval_b2_t0099": {
+      "scenario": "clean_matched_refund_pair",
+      "expected_type": "payment",
+      "expected_match": {
+        "match_type": "refund_pair",
+        "with": "eval_b2_t0100"
+      },
+      "expected_anomaly": null
+    },
+    "eval_b2_t0100": {
+      "scenario": "clean_matched_refund_pair",
+      "expected_type": "refund",
+      "expected_match": {
+        "match_type": "refund_pair",
+        "with": "eval_b2_t0099"
+      },
+      "expected_anomaly": null
+    },
+    "eval_b2_t0101": {
+      "scenario": "clean_payment",
+      "expected_type": "fee",
+      "expected_match": null,
+      "expected_anomaly": null
+    },
+    "eval_b2_t0102": {
+      "scenario": "clean_payment",
+      "expected_type": "fee",
+      "expected_match": null,
+      "expected_anomaly": null
+    },
+    "eval_b2_t0103": {
+      "scenario": "clean_payment",
+      "expected_type": "fee",
+      "expected_match": null,
+      "expected_anomaly": null
+    },
+    "eval_b2_t0104": {
+      "scenario": "clean_payment",
+      "expected_type": "payment",
+      "expected_match": null,
+      "expected_anomaly": null
+    },
+    "eval_b2_t0105": {
+      "scenario": "clean_payment",
+      "expected_type": "payment",
+      "expected_match": null,
+      "expected_anomaly": null
+    },
+    "eval_b2_t0106": {
+      "scenario": "clean_payment",
+      "expected_type": "payment",
+      "expected_match": null,
+      "expected_anomaly": null
+    },
+    "eval_b2_t0107": {
+      "scenario": "clean_payment",
+      "expected_type": "payment",
+      "expected_match": null,
+      "expected_anomaly": null
+    },
+    "eval_b2_t0108": {
+      "scenario": "clean_payment",
+      "expected_type": "payment",
+      "expected_match": null,
+      "expected_anomaly": null
+    },
+    "eval_b2_t0109": {
+      "scenario": "clean_payment",
+      "expected_type": "payment",
+      "expected_match": null,
+      "expected_anomaly": null
+    },
+    "eval_b2_t0110": {
+      "scenario": "clean_payment",
+      "expected_type": "payment",
+      "expected_match": null,
+      "expected_anomaly": null
+    },
+    "eval_b2_t0111": {
+      "scenario": "clean_payment",
+      "expected_type": "payment",
+      "expected_match": null,
+      "expected_anomaly": null
+    },
+    "eval_b2_t0112": {
+      "scenario": "clean_payment",
+      "expected_type": "payment",
+      "expected_match": null,
+      "expected_anomaly": null
+    },
+    "eval_b2_t0113": {
+      "scenario": "clean_payment",
+      "expected_type": "payment",
+      "expected_match": null,
+      "expected_anomaly": null
+    },
+    "eval_b2_t0114": {
+      "scenario": "clean_payment",
+      "expected_type": "payment",
+      "expected_match": null,
+      "expected_anomaly": null
+    },
+    "eval_b2_t0115": {
+      "scenario": "clean_payment",
+      "expected_type": "payment",
+      "expected_match": null,
+      "expected_anomaly": null
+    },
+    "eval_b2_t0116": {
+      "scenario": "clean_payment",
+      "expected_type": "payment",
+      "expected_match": null,
+      "expected_anomaly": null
+    },
+    "eval_b2_t0117": {
+      "scenario": "clean_payment",
+      "expected_type": "payment",
+      "expected_match": null,
+      "expected_anomaly": null
+    },
+    "eval_b2_t0118": {
+      "scenario": "clean_payment",
+      "expected_type": "payment",
+      "expected_match": null,
+      "expected_anomaly": null
+    },
+    "eval_b2_t0119": {
+      "scenario": "clean_payment",
+      "expected_type": "payment",
+      "expected_match": null,
+      "expected_anomaly": null
+    },
+    "eval_b2_t0120": {
+      "scenario": "clean_payment",
+      "expected_type": "payment",
+      "expected_match": null,
+      "expected_anomaly": null
+    },
+    "eval_b2_t0121": {
+      "scenario": "clean_payment",
+      "expected_type": "payment",
+      "expected_match": null,
+      "expected_anomaly": null
+    },
+    "eval_b3_t0122": {
+      "scenario": "clean_matched_refund_pair",
+      "expected_type": "payment",
+      "expected_match": {
+        "match_type": "refund_pair",
+        "with": "eval_b3_t0123"
+      },
+      "expected_anomaly": null
+    },
+    "eval_b3_t0123": {
+      "scenario": "clean_matched_refund_pair",
+      "expected_type": "refund",
+      "expected_match": {
+        "match_type": "refund_pair",
+        "with": "eval_b3_t0122"
+      },
+      "expected_anomaly": null
+    },
+    "eval_b3_t0124": {
+      "scenario": "clean_matched_refund_pair",
+      "expected_type": "payment",
+      "expected_match": {
+        "match_type": "refund_pair",
+        "with": "eval_b3_t0125"
+      },
+      "expected_anomaly": null
+    },
+    "eval_b3_t0125": {
+      "scenario": "clean_matched_refund_pair",
+      "expected_type": "refund",
+      "expected_match": {
+        "match_type": "refund_pair",
+        "with": "eval_b3_t0124"
+      },
+      "expected_anomaly": null
+    },
+    "eval_b3_t0126": {
+      "scenario": "clean_payment",
+      "expected_type": "fee",
+      "expected_match": null,
+      "expected_anomaly": null
+    },
+    "eval_b3_t0127": {
+      "scenario": "clean_payment",
+      "expected_type": "fee",
+      "expected_match": null,
+      "expected_anomaly": null
+    },
+    "eval_b3_t0128": {
+      "scenario": "clean_payment",
+      "expected_type": "fee",
+      "expected_match": null,
+      "expected_anomaly": null
+    },
+    "eval_b3_t0129": {
+      "scenario": "clean_payment",
+      "expected_type": "fee",
+      "expected_match": null,
+      "expected_anomaly": null
+    },
+    "eval_b3_t0130": {
+      "scenario": "clean_payment",
+      "expected_type": "payment",
+      "expected_match": null,
+      "expected_anomaly": null
+    },
+    "eval_b3_t0131": {
+      "scenario": "clean_payment",
+      "expected_type": "payment",
+      "expected_match": null,
+      "expected_anomaly": null
+    },
+    "eval_b3_t0132": {
+      "scenario": "clean_payment",
+      "expected_type": "payment",
+      "expected_match": null,
+      "expected_anomaly": null
+    },
+    "eval_b3_t0133": {
+      "scenario": "clean_payment",
+      "expected_type": "payment",
+      "expected_match": null,
+      "expected_anomaly": null
+    },
+    "eval_b3_t0134": {
+      "scenario": "clean_payment",
+      "expected_type": "payment",
+      "expected_match": null,
+      "expected_anomaly": null
+    },
+    "eval_b3_t0135": {
+      "scenario": "clean_payment",
+      "expected_type": "payment",
+      "expected_match": null,
+      "expected_anomaly": null
+    },
+    "eval_b3_t0136": {
+      "scenario": "clean_payment",
+      "expected_type": "payment",
+      "expected_match": null,
+      "expected_anomaly": null
+    },
+    "eval_b3_t0137": {
+      "scenario": "clean_payment",
+      "expected_type": "payment",
+      "expected_match": null,
+      "expected_anomaly": null
+    },
+    "eval_b3_t0138": {
+      "scenario": "clean_payment",
+      "expected_type": "payment",
+      "expected_match": null,
+      "expected_anomaly": null
+    },
+    "eval_b3_t0139": {
+      "scenario": "clean_payment",
+      "expected_type": "payment",
+      "expected_match": null,
+      "expected_anomaly": null
+    },
+    "eval_b3_t0140": {
+      "scenario": "clean_payment",
+      "expected_type": "payment",
+      "expected_match": null,
+      "expected_anomaly": null
+    },
+    "eval_b3_t0141": {
+      "scenario": "clean_payment",
+      "expected_type": "payment",
+      "expected_match": null,
+      "expected_anomaly": null
+    },
+    "eval_b3_t0142": {
+      "scenario": "clean_payment",
+      "expected_type": "payment",
+      "expected_match": null,
+      "expected_anomaly": null
+    },
+    "eval_b3_t0143": {
+      "scenario": "clean_payment",
+      "expected_type": "payment",
+      "expected_match": null,
+      "expected_anomaly": null
+    },
+    "eval_b3_t0144": {
+      "scenario": "clean_payment",
+      "expected_type": "payment",
+      "expected_match": null,
+      "expected_anomaly": null
+    },
+    "eval_b3_t0145": {
+      "scenario": "clean_payment",
+      "expected_type": "payment",
+      "expected_match": null,
+      "expected_anomaly": null
+    },
+    "eval_b3_t0146": {
+      "scenario": "clean_payment",
+      "expected_type": "payment",
+      "expected_match": null,
+      "expected_anomaly": null
+    },
+    "eval_b3_t0147": {
+      "scenario": "clean_payment",
+      "expected_type": "payment",
+      "expected_match": null,
+      "expected_anomaly": null
+    },
+    "eval_b3_t0148": {
+      "scenario": "clean_payment",
+      "expected_type": "payment",
+      "expected_match": null,
+      "expected_anomaly": null
+    },
+    "eval_b3_t0149": {
+      "scenario": "clean_payment",
+      "expected_type": "payment",
+      "expected_match": null,
+      "expected_anomaly": null
+    },
+    "eval_b3_t0150": {
+      "scenario": "clean_payment",
+      "expected_type": "payment",
+      "expected_match": null,
+      "expected_anomaly": null
+    }
+  }
+}

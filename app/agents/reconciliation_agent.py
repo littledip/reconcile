@@ -38,6 +38,17 @@ from app.models.transaction import Transaction, TransactionType
 
 _ORDER_RE = re.compile(r"order #(\d+)", re.IGNORECASE)
 _MATCH_WINDOW_DAYS = 30
+# Week 11+ (eval framework build-out): pass 2 no longer requires an exact
+# equal-and-opposite amount. A diff within _MISMATCH_TOLERANCE is treated as
+# rounding noise (still a clean refund_pair/chargeback_pair, no anomaly). A
+# larger diff, but still within _MISMATCH_MAX_GAP_PCT of the larger amount,
+# becomes an amount_mismatch_pair instead -- flagged by the Anomaly Detection
+# Agent (app/agents/anomaly_agent.py) as AMOUNT_MISMATCH. Beyond that gap, the
+# two transactions are treated as unrelated and never paired at all -- a wildly
+# different amount is more likely two unrelated transactions than a genuine
+# mismatch worth flagging.
+_MISMATCH_TOLERANCE = Decimal("1.00")
+_MISMATCH_MAX_GAP_PCT = Decimal("0.50")
 
 
 def _extract_order_id(description: str | None) -> str | None:
@@ -102,24 +113,39 @@ def match_transactions(
             o_type = classifications.get(other.transaction_id)
             if o_type not in (TransactionType.REFUND, TransactionType.CHARGEBACK):
                 continue
-            if other.merchant_id != payment.merchant_id or other.amount != -payment.amount:
+            if other.merchant_id != payment.merchant_id:
+                continue
+            # diff == 0 for a perfectly equal-and-opposite pair; grows from there.
+            diff = abs(other.amount + payment.amount)
+            max_gap = max(payment.amount, abs(other.amount)) * _MISMATCH_MAX_GAP_PCT
+            if diff > max_gap:
                 continue
             days_apart = abs((other.timestamp - payment.timestamp).days)
             if days_apart > _MATCH_WINDOW_DAYS:
                 continue
 
-            match_type = "chargeback_pair" if o_type == TransactionType.CHARGEBACK else "refund_pair"
+            if diff <= _MISMATCH_TOLERANCE:
+                match_type = "chargeback_pair" if o_type == TransactionType.CHARGEBACK else "refund_pair"
+                reasoning = (
+                    f"Matched by merchant + equal-and-opposite amount ({payment.amount} vs "
+                    f"{other.amount}) within {days_apart} day(s); no shared order reference, "
+                    f"so this is a lower-confidence heuristic match than an order-id match."
+                )
+            else:
+                match_type = "amount_mismatch_pair"
+                reasoning = (
+                    f"Merchant + timing match ({payment.amount} vs {other.amount}, within "
+                    f"{days_apart} day(s)), but the amounts don't reconcile -- off by {diff}, "
+                    f"outside the {_MISMATCH_TOLERANCE} rounding-tolerance band."
+                )
+
             matches.append(
                 TransactionMatch(
                     match_id=f"match_{match_counter}",
                     transaction_ids=[payment.transaction_id, other.transaction_id],
                     match_type=match_type,
-                    confidence=0.65,
-                    reasoning=(
-                        f"Matched by merchant + equal-and-opposite amount ({payment.amount} vs "
-                        f"{other.amount}) within {days_apart} day(s); no shared order reference, "
-                        f"so this is a lower-confidence heuristic match than an order-id match."
-                    ),
+                    confidence=0.65 if diff <= _MISMATCH_TOLERANCE else 0.6,
+                    reasoning=reasoning,
                 )
             )
             matched_ids.add(payment.transaction_id)

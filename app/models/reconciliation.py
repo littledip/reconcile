@@ -19,7 +19,7 @@ from pydantic import BaseModel, Field
 class TransactionMatch(BaseModel):
     match_id: str
     transaction_ids: list[str]
-    match_type: Literal["duplicate_pair", "refund_pair", "chargeback_pair"]
+    match_type: Literal["duplicate_pair", "refund_pair", "chargeback_pair", "amount_mismatch_pair"]
     confidence: float = Field(ge=0.0, le=1.0)
     reasoning: str
 
