@@ -7,7 +7,7 @@ Progress log (dated, session-by-session): see SecondBrain `03_Knowledge/AI/Recon
 
 ## Status
 
-Weeks 1–10 built and verified against real infra (MongoDB, Redis, Neo4j, a live MCP client/server round trip, Chroma). Eval framework v0.1 (Week 11+) is live: a frozen synthetic ground-truth dataset plus a runner scoring classification/matching/anomaly-detection/auto-resolution accuracy against it (300/300 checks passing). Drift, latency, and episodic-memory grounding (LLM-as-judge, deferred to v2) are the remaining open pieces — see [Eval framework](#eval-framework) below.
+Weeks 1–10 built and verified against real infra (MongoDB, Redis, Neo4j, a live MCP client/server round trip, Chroma). Eval framework v0.1 (Week 11+) is live: a frozen synthetic ground-truth dataset plus a runner scoring classification/matching/anomaly-detection/auto-resolution accuracy against it (300/300 checks passing). Drift, latency, and episodic-memory grounding (LLM-as-judge, deferred to v2) are the remaining open pieces — see [Eval framework](#eval-framework) below. A React/TypeScript evaluator UI (`ui/`, single evaluator assumed) now covers the human-review side of the escalation queue, pushed live over SSE rather than polled — see [Evaluator UI](#evaluator-ui). Productionizing (Docker/K8s deployment, CI/CD, observability) is explicitly out of scope for now.
 
 ## Architecture
 
@@ -75,6 +75,31 @@ uvicorn app.main:app --reload
 | `scripts/demo_cross_batch_lookup.py` | The MCP lookup tool resolving a `missing_record` anomaly across two separate batches. |
 | `scripts/demo_escalation_queue.py` | The write tools end to end: escalate, list, approve one, defer another, read back the audit records. |
 | `scripts/demo_episodic_memory.py` | Resolving an anomaly seeds an episode; a similar anomaly in a later batch gets grounded by it, both via the Reasoning Agent and the `/similar` endpoint's own code path. |
+
+## Evaluator UI
+
+A React/TypeScript UI (`ui/`, via Vite) for the human-review side of the escalation queue -- lists what's pending (sortable by relevance, priority, or oldest-first), lets a reviewer pull similar past decisions on demand, and submit a decision with type-specific helper text (e.g. what "approved" means for a duplicate charge vs. an unresolved chargeback). Single evaluator assumed for now: a plain name field (remembered in `localStorage`), no login or user model. Design rationale: Progress_Log.md's Sept 28 UI design session; see `ui/README.md` for the fuller design notes.
+
+```bash
+# terminal 1, from the repo root
+uvicorn app.main:app --reload
+
+# terminal 2
+cd ui
+npm install
+npm run dev
+```
+
+Talks to FastAPI directly from the browser -- no Node backend/proxy layer, Node here is just the build/dev tooling. `app/main.py` allows CORS from `http://localhost:5173` (Vite's default port) specifically for this.
+
+### Push notifications (SSE), not polling
+
+The queue updates live: `GET /escalations/stream` (Server-Sent Events) pushes a `queue_changed` signal to every connected browser tab the instant an anomaly is escalated or a reviewer closes one out, instead of the UI polling `GET /escalations` on a timer. Design rationale (transport choice, the Redis Pub/Sub plumbing, the payload shape, reconnection/staleness guarantees): see the "Escalation Queue: Polling to Push" design doc (Sept 29 design session).
+
+How it fits together:
+- `app/mcp_server.py`'s `escalate_dispute` and `submit_reconciliation_decision` publish to a Redis channel (`escalation_events`, `app/cache.py`) right after they write the queue, whether that write happens in-process (mock mode) or over the real MCP stdio subprocess (real-Redis mode) -- same channel either way.
+- `app/main.py` runs one background task for the life of the process, subscribed to that channel, fanning each change out to every connected SSE client.
+- The event itself carries no data -- just "go refetch" -- so `ui/src/hooks/useEscalations.ts` still gets the queue's contents from the same `GET /escalations` call as before; the stream only decides *when* to make it. It also refetches on every (re)connect and keeps a 60-second safety-net poll running alongside the stream, since Redis Pub/Sub has no replay -- anything missed while disconnected is picked up by one of those two, not lost.
 
 ## Classification model providers
 
@@ -162,7 +187,7 @@ python eval/run_eval.py
 ```
 reconcile/
   app/
-    main.py                        FastAPI app, routes
+    main.py                        FastAPI app, routes, SSE stream endpoint + Redis-subscriber background task
     config.py                      env/settings
     db.py                          Mongo connection (real or mongomock)
     cache.py                       Redis connection (real or fakeredis)
@@ -205,6 +230,15 @@ reconcile/
   eval/
     eval_dataset.json              Frozen ground-truth dataset (see Eval framework above) -- committed, not regenerated per run
     run_eval.py                    Eval framework v0.1 runner
+  ui/
+    src/
+      types.ts                     TS interfaces mirroring app/main.py's request/response shapes
+      api.ts                       fetch wrappers for the 3 escalation endpoints
+      hooks/                       useEscalations (SSE push + 60s safety-net poll), useReviewerName (localStorage, no auth)
+      sort.ts                      Sort options for the escalation queue (relevance/priority/date)
+      decisionHelp.ts               Type-specific helper text for the decision form
+      components/                  EscalationList, EscalationDetail (see ui/README.md)
+      App.tsx
   requirements.txt
   docker-compose.yml
   .env.example

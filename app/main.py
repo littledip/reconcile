@@ -20,14 +20,19 @@ same knowledge-retrieval-vs-tool-use split Week 5-6 drew for the reason-code
 graph, not the MCP write-tools boundary (see Progress_Log.md's Sept 23
 Week 9-10 design-session entry).
 """
+import asyncio
+import json
+from contextlib import asynccontextmanager
 from typing import Optional
 
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Request
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import StreamingResponse
 from pydantic import BaseModel
 
 from app.agents.classification_agent import classify_transaction
 from app.agents.orchestrator import run_reconciliation_batch
-from app.cache import using_mock_redis
+from app.cache import ESCALATION_EVENTS_CHANNEL, redis_client, using_mock_redis
 from app.config import settings
 from app.db import using_mock_mongo
 from app.graph_db import using_mock_graph
@@ -35,7 +40,75 @@ from app.mcp_client import list_pending_escalations, lookup_session, submit_reco
 from app.memory_store import find_similar_episodes
 from app.models.transaction import ClassificationResult, Transaction
 
-app = FastAPI(title="Reconcile", version="0.1.0")
+# Week 11+ (push notifications -- see the Sept 29 design doc "Escalation
+# Queue: Polling to Push"): one background task, started for the life of
+# the process (lifespan below), holds the Redis subscription and fans
+# each "queue changed" message out to every currently-connected SSE
+# client. Each client's own asyncio.Queue is added when GET
+# /escalations/stream opens and discarded when it closes.
+#
+# Deliberately outside the lookup_session()/MCP boundary every other
+# escalation read/write in this file goes through: pub/sub is a long-lived
+# stream, not a request/response tool call, so it doesn't fit that model
+# -- but it still reuses the exact same redis_client (real or fakeredis,
+# per app/cache.py) that app/mcp_server.py's tools publish to. That
+# client is synchronous, and pubsub.get_message() blocks, so each read
+# runs in a thread pool executor rather than on the event loop.
+_stream_subscribers: set[asyncio.Queue] = set()
+
+
+async def _broadcast_queue_changes() -> None:
+    pubsub = redis_client.pubsub()
+    pubsub.subscribe(ESCALATION_EVENTS_CHANNEL)
+    loop = asyncio.get_running_loop()
+    try:
+        while True:
+            message = await loop.run_in_executor(
+                None, lambda: pubsub.get_message(ignore_subscribe_messages=True, timeout=1.0)
+            )
+            if message is not None:
+                # Coalesce: each client's queue holds at most one pending
+                # "go refetch" signal. The event only ever means "go look
+                # again" (never carries the change itself, Section 4 of
+                # the design doc), so collapsing a burst of near-together
+                # changes into one delivered event loses nothing -- one
+                # refetch after the burst picks up all of them -- and this
+                # also protects against a slow/backgrounded tab building up
+                # a large backlog of identical events while it's away.
+                for queue in list(_stream_subscribers):
+                    if queue.empty():
+                        queue.put_nowait({"type": "queue_changed"})
+    finally:
+        pubsub.close()
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    task = asyncio.create_task(_broadcast_queue_changes())
+    try:
+        yield
+    finally:
+        task.cancel()
+        try:
+            await task
+        except asyncio.CancelledError:
+            pass
+
+
+app = FastAPI(title="Reconcile", version="0.1.0", lifespan=lifespan)
+
+# Week 11 (evaluator UI): the React app (ui/, served by Vite's dev server)
+# calls this API directly from the browser -- no Node backend/proxy layer,
+# per the Sept 28 design session ("Node is frontend tooling only"). CORS
+# is the only backend change that decision requires. Wide open for local
+# dev -- this app has no auth model at all yet (single-evaluator, no
+# login), so there's no session/cookie boundary to protect here regardless.
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5173"],
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 class DecisionRequest(BaseModel):
@@ -165,3 +238,41 @@ async def similar_escalations(anomaly_id: str) -> list[dict]:
         severity=queued["severity"],
         reasoning=queued["reasoning"],
     )
+
+
+@app.get("/escalations/stream")
+async def escalations_stream(request: Request) -> StreamingResponse:
+    """Server-Sent Events: push {"type": "queue_changed"} whenever the
+    escalation queue changes, so the UI (ui/src/hooks/useEscalations.ts)
+    can react immediately instead of polling GET /escalations on a timer.
+    See the Sept 29 design doc ("Escalation Queue: Polling to Push") for
+    the full design.
+
+    This endpoint never sends the queue's contents itself -- only "go
+    look" (a thin invalidate signal, Section 4 of the design doc). The
+    client is expected to call GET /escalations on every message,
+    including right after the connection (re)opens, which is what covers
+    anything that changed while it was disconnected.
+
+    Each connection gets its own asyncio.Queue, filled by the
+    _broadcast_queue_changes background task above. A 15s idle heartbeat
+    comment line keeps intermediary proxies from timing the connection
+    out while the queue is quiet.
+    """
+    queue: asyncio.Queue = asyncio.Queue()
+    _stream_subscribers.add(queue)
+
+    async def event_stream():
+        try:
+            while True:
+                if await request.is_disconnected():
+                    break
+                try:
+                    message = await asyncio.wait_for(queue.get(), timeout=15.0)
+                    yield f"data: {json.dumps(message)}\n\n"
+                except asyncio.TimeoutError:
+                    yield ": keep-alive\n\n"
+        finally:
+            _stream_subscribers.discard(queue)
+
+    return StreamingResponse(event_stream(), media_type="text/event-stream")

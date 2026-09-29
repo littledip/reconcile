@@ -87,7 +87,7 @@ from typing import Optional
 
 from mcp.server.fastmcp import FastMCP
 
-from app.cache import redis_client
+from app.cache import ESCALATION_EVENTS_CHANNEL, redis_client
 from app.db import db
 from app.memory_store import write_episode
 from app.models.reconciliation import ReconciliationDecision
@@ -258,6 +258,12 @@ def escalate_dispute(
         "escalated_at": datetime.now(timezone.utc).isoformat(),
     }
     redis_client.hset(_ESCALATION_QUEUE_KEY, anomaly_id, json.dumps(record))
+
+    # Week 11+: tell any connected SSE clients the queue changed. See
+    # app/cache.py's ESCALATION_EVENTS_CHANNEL and app/main.py's
+    # subscriber task / GET /escalations/stream.
+    redis_client.publish(ESCALATION_EVENTS_CHANNEL, "queue_changed")
+
     return {"queued": True, "anomaly_id": anomaly_id}
 
 
@@ -361,6 +367,13 @@ def submit_reconciliation_decision(
     removed = False
     if decision != "deferred":
         removed = bool(redis_client.hdel(_ESCALATION_QUEUE_KEY, anomaly_id))
+        # Only publish when the queue actually shrank -- "deferred" keeps
+        # the same record queued (nothing for a reviewer's list to catch),
+        # and the auto-resolved-via-lookup caller was never queued at all
+        # (removed is always False there), so this naturally publishes
+        # only for a real human close-out.
+        if removed:
+            redis_client.publish(ESCALATION_EVENTS_CHANNEL, "queue_changed")
 
     return {
         "recorded": True,

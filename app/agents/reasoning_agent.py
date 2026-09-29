@@ -84,10 +84,22 @@ def _attach_episodic_context(anomaly: Anomaly) -> Anomaly:
         return anomaly
 
     summary = "; ".join(
-        f"{e['decision']} by {e['decided_by']}" + (f" ({e['notes']})" if e.get("notes") else "")
+        f"{_humanize_decision(e['decision'])} by {e['decided_by']}"
+        + (f" ({e['notes']})" if e.get("notes") else "")
         for e in episodes
     )
-    return anomaly.model_copy(update={"episodic_context": f"Similar past decisions: {summary}."})
+    # No "Similar past decisions:" prefix here -- the UI (EscalationDetail.tsx)
+    # already labels this field "Similar past context:" before rendering it,
+    # so a second label here just duplicated the framing.
+    return anomaly.model_copy(update={"episodic_context": f"{summary}."})
+
+
+def _humanize_decision(decision: str) -> str:
+    """Render a stored decision value (e.g. "auto_resolved_via_lookup") as
+    a readable phrase for display in episodic_context. Purely cosmetic --
+    the underlying decision values stored in memory_store.py and returned
+    from GET /escalations/{id}/similar are left untouched."""
+    return decision.replace("_", " ")
 
 
 def _lookup_reason_code(anomaly: Anomaly, txns_by_id: dict[str, Transaction]):

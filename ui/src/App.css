@@ -1,0 +1,267 @@
+.app {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 1.5rem;
+}
+
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.app-header h1 {
+  font-size: 1.4rem;
+  margin: 0;
+}
+
+.reviewer-name {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.reviewer-name input {
+  padding: 0.35rem 0.5rem;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+.app-main {
+  display: grid;
+  grid-template-columns: 360px 1fr;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+@media (max-width: 720px) {
+  .app-main {
+    grid-template-columns: 1fr;
+  }
+}
+
+.queue-pane, .detail-pane {
+  background: rgba(127, 127, 127, 0.06);
+  border: 1px solid rgba(127, 127, 127, 0.2);
+  border-radius: 8px;
+  padding: 1rem;
+}
+
+.queue-pane-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.queue-pane-header h2 {
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.sort-control {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.8rem;
+}
+
+.sort-control select {
+  font: inherit;
+  padding: 0.25rem 0.4rem;
+  border-radius: 4px;
+  border: 1px solid rgba(127, 127, 127, 0.35);
+  background: transparent;
+  color: inherit;
+}
+
+.escalation-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.escalation-row {
+  width: 100%;
+  text-align: left;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.25rem 0.75rem;
+  padding: 0.6rem 0.75rem;
+  border-radius: 6px;
+  border: 1px solid rgba(127, 127, 127, 0.25);
+  background: transparent;
+  cursor: pointer;
+  font: inherit;
+  color: inherit;
+}
+
+.escalation-row.selected {
+  border-color: #4a7dfc;
+  background: rgba(74, 125, 252, 0.1);
+}
+
+.anomaly-type {
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.txn-ids {
+  grid-column: 1 / -1;
+  font-size: 0.8rem;
+  opacity: 0.7;
+}
+
+.severity-badge {
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.1rem 0.5rem;
+  border-radius: 999px;
+  height: fit-content;
+  text-transform: capitalize;
+}
+
+.severity-badge.severity-high, .escalation-row.severity-high .severity-badge {
+  background: #fddede;
+  color: #a11414;
+}
+
+.severity-badge.severity-medium, .escalation-row.severity-medium .severity-badge {
+  background: #fef1cf;
+  color: #8a5c00;
+}
+
+.severity-badge.severity-low, .escalation-row.severity-low .severity-badge {
+  background: #ddf0e2;
+  color: #196b36;
+}
+
+.escalation-detail h2 {
+  text-transform: capitalize;
+}
+
+.detail-meta {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.25rem 1rem;
+  margin: 1rem 0;
+  font-size: 0.9rem;
+}
+
+.detail-meta dt {
+  font-weight: 600;
+  opacity: 0.7;
+}
+
+.detail-meta dd {
+  margin: 0;
+}
+
+.reasoning {
+  background: rgba(127, 127, 127, 0.08);
+  border-radius: 6px;
+  padding: 0.75rem;
+}
+
+.episodic-context {
+  font-size: 0.9rem;
+  border-left: 3px solid #4a7dfc;
+  padding-left: 0.75rem;
+  opacity: 0.9;
+}
+
+.similar-section {
+  margin: 1rem 0;
+}
+
+.similar-list {
+  margin: 0.5rem 0 0;
+  padding-left: 1.25rem;
+  font-size: 0.9rem;
+}
+
+.similar-list strong {
+  text-transform: capitalize;
+}
+
+.similar-distance {
+  opacity: 0.6;
+  font-size: 0.8rem;
+}
+
+.decision-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(127, 127, 127, 0.2);
+}
+
+.decision-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.decision-hint {
+  margin: -0.4rem 0 0;
+  font-size: 0.8rem;
+  font-style: italic;
+  opacity: 0.75;
+}
+
+.decision-form select, .decision-form textarea {
+  font: inherit;
+  padding: 0.5rem;
+  border-radius: 6px;
+  border: 1px solid rgba(127, 127, 127, 0.35);
+  background: transparent;
+  color: inherit;
+}
+
+.decision-form select {
+  text-transform: capitalize;
+}
+
+.decision-form button {
+  align-self: flex-start;
+  padding: 0.5rem 1.25rem;
+  border-radius: 6px;
+  border: none;
+  background: #4a7dfc;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.decision-form button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.similar-section button {
+  padding: 0.4rem 0.9rem;
+  border-radius: 6px;
+  border: 1px solid rgba(127, 127, 127, 0.35);
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+}
+
+.empty-state {
+  opacity: 0.65;
+  font-size: 0.9rem;
+}
+
+.error-text {
+  color: #c62828;
+  font-size: 0.85rem;
+}

@@ -20,3 +20,14 @@ else:
 
 def using_mock_redis() -> bool:
     return _USING_MOCK
+
+
+# Week 11+ (push notifications, replacing the evaluator UI's poll -- see
+# the Sept 29 design doc "Escalation Queue: Polling to Push"): the channel
+# app/mcp_server.py's escalate_dispute/submit_reconciliation_decision
+# PUBLISH to right after they write the escalation_queue hash, and that
+# app/main.py's background subscriber task listens on to fan each change
+# out over SSE. Named here, alongside the connection itself, since both
+# the publisher and the subscriber already import redis_client from this
+# module and need to agree on the same channel name.
+ESCALATION_EVENTS_CHANNEL = "escalation_events"
