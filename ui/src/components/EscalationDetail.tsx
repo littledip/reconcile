@@ -82,24 +82,31 @@ export function EscalationDetail({ anomaly, reviewerName, onDecided }: Props) {
         </p>
       )}
 
-      <div className="similar-section">
-        <button type="button" onClick={handleShowSimilar} disabled={similarLoading}>
-          {similarLoading ? "Loading..." : "Show similar past decisions"}
-        </button>
-        {similarError && <p className="error-text">{similarError}</p>}
-        {similar && similar.length === 0 && <p className="empty-state">No similar past decisions found.</p>}
-        {similar && similar.length > 0 && (
-          <ul className="similar-list">
-            {similar.map((ep) => (
-              <li key={ep.anomaly_id}>
-                <strong>{ep.decision.replace(/_/g, " ")}</strong> by {ep.decided_by}
-                {ep.notes ? ` -- ${ep.notes}` : ""}
-                <span className="similar-distance"> (distance {ep.distance.toFixed(2)})</span>
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
+      {/* anomaly.episodic_context is set iff find_similar_episodes() found
+          anything at escalation time (app/agents/reasoning_agent.py) -- the
+          exact same query this button's on-demand /similar call re-runs
+          live. Gating on it here means we never show a "Show similar past
+          decisions" button that's guaranteed to come back empty. */}
+      {anomaly.episodic_context && (
+        <div className="similar-section">
+          <button type="button" onClick={handleShowSimilar} disabled={similarLoading}>
+            {similarLoading ? "Loading..." : "Show similar past decisions"}
+          </button>
+          {similarError && <p className="error-text">{similarError}</p>}
+          {similar && similar.length === 0 && <p className="empty-state">No similar past decisions found.</p>}
+          {similar && similar.length > 0 && (
+            <ul className="similar-list">
+              {similar.map((ep) => (
+                <li key={ep.anomaly_id}>
+                  <strong>{ep.decision.replace(/_/g, " ")}</strong> by {ep.decided_by}
+                  {ep.notes ? ` -- ${ep.notes}` : ""}
+                  <span className="similar-distance"> (distance {ep.distance.toFixed(2)})</span>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+      )}
 
       <form className="decision-form" onSubmit={handleSubmit}>
         <label>

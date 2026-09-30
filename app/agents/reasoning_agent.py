@@ -83,15 +83,58 @@ def _attach_episodic_context(anomaly: Anomaly) -> Anomaly:
     if not episodes:
         return anomaly
 
-    summary = "; ".join(
-        f"{_humanize_decision(e['decision'])} by {e['decided_by']}"
-        + (f" ({e['notes']})" if e.get("notes") else "")
-        for e in episodes
-    )
+    # Sept 30 design note: episodic_context started as a flat "decision by
+    # reviewer" line per episode, joined with "; ". That reads as noise more
+    # than signal -- anomaly_agent.py's reasoning templates are formulaic
+    # enough (they mostly vary by transaction_id) that several retrieved
+    # episodes routinely render identically, and a reviewer has to mentally
+    # tally "ok, 2 of these were auto-resolved, 1 was approved" themselves.
+    # This renders that tally directly: episodes are grouped by decision
+    # (closest-first, i.e. find_similar_episodes()'s own order), each group
+    # reports its count and who decided it, and reviewer names are collapsed
+    # only within a group so "by system" doesn't drown out "by John" or vice
+    # versa. Full per-episode detail (including distance and notes) is still
+    # available via "Show similar past decisions" in the UI -- this is a
+    # summary on top of that, not a replacement for it.
+    groups: dict[str, dict] = {}
+    order: list[str] = []
+    for e in episodes:
+        decision = e["decision"]
+        if decision not in groups:
+            groups[decision] = {"count": 0, "reviewers": []}
+            order.append(decision)
+        groups[decision]["count"] += 1
+        groups[decision]["reviewers"].append(e["decided_by"])
+
+    total = len(episodes)
+    case_word = "case" if total == 1 else "cases"
+
+    def render_reviewers(names: list[str]) -> str:
+        uniq = list(dict.fromkeys(names))  # dedupe, preserve first-seen order
+        if len(uniq) == 1:
+            return uniq[0]
+        if len(uniq) == 2:
+            return f"{uniq[0]} and {uniq[1]}"
+        return f"{uniq[0]}, {uniq[1]}, and {len(uniq) - 2} other{'s' if len(uniq) > 3 else ''}"
+
+    if len(order) == 1:
+        decision = order[0]
+        who = render_reviewers(groups[decision]["reviewers"])
+        qualifier = "all " if total > 1 else ""
+        summary = f"{total} similar past {case_word}: {qualifier}{_humanize_decision(decision)}, by {who}."
+    else:
+        parts = []
+        for decision in order:
+            group = groups[decision]
+            who = render_reviewers(group["reviewers"])
+            count_prefix = f"{group['count']} " if group["count"] > 1 else ""
+            parts.append(f"{count_prefix}{_humanize_decision(decision)} by {who}")
+        summary = f"{total} similar past {case_word}: " + ", ".join(parts) + "."
+
     # No "Similar past decisions:" prefix here -- the UI (EscalationDetail.tsx)
     # already labels this field "Similar past context:" before rendering it,
     # so a second label here just duplicated the framing.
-    return anomaly.model_copy(update={"episodic_context": f"{summary}."})
+    return anomaly.model_copy(update={"episodic_context": summary})
 
 
 def _humanize_decision(decision: str) -> str:
