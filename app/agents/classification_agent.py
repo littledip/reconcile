@@ -174,7 +174,18 @@ def _local_classify(txn: Transaction) -> ClassificationResult:
     from langchain_ollama import ChatOllama
     from langchain_core.messages import HumanMessage, SystemMessage
 
-    llm = ChatOllama(model=settings.ollama_model, base_url=settings.ollama_base_url)
+    # reasoning=False -- Sept 30 investigation into why a single local call
+    # was taking ~40s on an M5 Pro with the model 100% on GPU (confirmed via
+    # `ollama ps`, ruling out a CPU fallback): `ollama show` lists this model
+    # under Capabilities: thinking, and ChatOllama's `reasoning` field
+    # defaults to None ("use the model's default reasoning behavior") -- so
+    # every call was silently generating a full hidden <think>...</think>
+    # trace before ever emitting the structured classification. This is a
+    # single-label classification task, not a multi-step reasoning one, so
+    # that trace buys nothing here and just burns tokens/latency. Explicitly
+    # disabling it brings local mode's latency profile back in line with
+    # _llm_classify()'s (which has no such hidden-reasoning behavior).
+    llm = ChatOllama(model=settings.ollama_model, base_url=settings.ollama_base_url, reasoning=False)
     structured_llm = llm.with_structured_output(ClassificationResult)
 
     messages = [
